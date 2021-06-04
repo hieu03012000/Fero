@@ -16,8 +16,8 @@ namespace Fero.Data.Services.Base
         Task<T> FirstOrDefaultAsyn();
         void Create(T entity);
         Task CreateAsyn(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefaultAsyn(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
@@ -48,9 +48,9 @@ namespace Fero.Data.Services.Base
             await _repository.CreateAsyn(entity);
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
-            _repository.Delete(entity);
+            await _repository.DeleteAsync(entity);
         }
 
         public T FirstOrDefault()
@@ -78,9 +78,9 @@ namespace Fero.Data.Services.Base
             return await _repository.GetAsyn(id);
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
-            _repository.Update(entity);
+            await _repository.UpdateAsync(entity);
         }
         public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
         {

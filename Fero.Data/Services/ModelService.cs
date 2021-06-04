@@ -58,7 +58,7 @@ namespace Fero.Data.Services
             if (_mapper.Map<UpdateModelProfileViewModel>(await GetAsyn(model.Id)) == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
             var entity = _mapper.Map<Model>(model);
-            Update(entity);
+            await UpdateAsync(entity);
             return model;
         }
     }

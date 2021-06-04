@@ -41,7 +41,7 @@ namespace Fero.Data.Services
             //if (await GetAsyn(updateProfile.Id) == null)
             //    throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
             // var customer = await Get(x => x.Id == customerId).FirstOrDefaultAsync();
-            Update(updateProfile);
+            await UpdateAsync(updateProfile);
             return updateProfile;
         }
 

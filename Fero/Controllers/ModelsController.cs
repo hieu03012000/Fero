@@ -17,12 +17,12 @@ namespace Fero.Controllers
         public ModelsController(IModelService modelService){
             _modelService=modelService;
         }
-        [MapToApiVersion("1.0")]
-        [HttpGet]
-        public IActionResult Gets()
-        {
-            return Ok(_modelService.Get().ToList());
-        }
+        //[MapToApiVersion("1.0")]
+        //[HttpGet]
+        //public IActionResult Gets()
+        //{
+        //    return Ok(_modelService.Get().ToList());
+        //} 
 
         /// <summary>
         /// Find model by ID
@@ -69,14 +69,14 @@ namespace Fero.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id,Model entity)
         {
-            _modelService.Delete(entity);
+            _modelService.DeleteAsync(entity);
             return Ok();
         }
-        [MapToApiVersion("1.0")]
-        [HttpGet("count")]
-        public IActionResult Count()
-        {
-            return Ok(_modelService.Count());
-        }
+        //[MapToApiVersion("1.0")]
+        //[HttpGet("count")]
+        //public IActionResult Count()
+        //{
+        //    return Ok(_modelService.Count());
+        //}
     }
 }

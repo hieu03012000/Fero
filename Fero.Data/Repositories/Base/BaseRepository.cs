@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using t = System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Fero.Data.Repository.Base
 {
@@ -11,15 +11,14 @@ namespace Fero.Data.Repository.Base
     {
         int Count();
         T Get<TKey>(TKey id);
-        t.Task<T> GetAsyn<TKey>(TKey id);
+        Task<T> GetAsyn<TKey>(TKey id);
         IQueryable<T> Get();
         T FirstOrDefault();
-        t.Task<T> FirstOrDefaultAsyn();
+        Task<T> FirstOrDefaultAsyn();
         void Create(T entity);
-        t.Task CreateAsyn(T entity);
-        void Update(T entity);
-        //void Update(Expression<Func<T, bool>> predicate);
-        void Delete(T entity);
+        Task CreateAsyn(T entity);
+        Task DeleteAsync(T entity);
+        Task UpdateAsync(T entity);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefaultAsyn(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
@@ -42,17 +41,21 @@ namespace Fero.Data.Repository.Base
 
         public void Create(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Add(entity);
+            _dbContext.SaveChanges();
         }
 
-        public async t.Task CreateAsyn(T entity)
+        public async Task CreateAsyn(T entity)
         {
             await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             _dbSet.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+
         }
 
         public T FirstOrDefault()
@@ -75,7 +78,7 @@ namespace Fero.Data.Repository.Base
             return _dbSet;
         }
 
-        public async t.Task<T> GetAsyn<TKey>(TKey id)
+        public async Task<T> GetAsyn<TKey>(TKey id)
         {
             return await this._dbSet.FindAsync(new object[1] { id });
         }
@@ -85,9 +88,10 @@ namespace Fero.Data.Repository.Base
             _dbSet.Find(predicate).Update<T>(entity);
         }*/
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
