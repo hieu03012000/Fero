@@ -48,7 +48,7 @@ namespace Fero.Data.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost,1433;Initial Catalog=Fero;User ID=sa;Password=123;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=Fero; User Id=sa; Password=123;");
             }
         }
 
@@ -193,15 +193,13 @@ namespace Fero.Data.Models
             {
                 entity.Property(e => e.Id).HasMaxLength(10);
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.Fanpage).HasMaxLength(100);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Password).HasMaxLength(300);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -209,6 +207,10 @@ namespace Fero.Data.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.TaxCode).HasMaxLength(20);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Web).HasMaxLength(100);
             });
@@ -254,15 +256,13 @@ namespace Fero.Data.Models
 
                 entity.Property(e => e.District).HasMaxLength(50);
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 entity.Property(e => e.Gifted).HasMaxLength(100);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Password).HasMaxLength(300);
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -272,6 +272,10 @@ namespace Fero.Data.Models
                 entity.Property(e => e.Province).HasMaxLength(50);
 
                 entity.Property(e => e.SubAddress).HasMaxLength(100);
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<ModelCasting>(entity =>

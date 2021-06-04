@@ -26,9 +26,10 @@ namespace Fero.Data.Models
         public string SubAddress { get; set; }
         public int? TotalFollowers { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; }
         public string Gifted { get; set; }
         public bool Status { get; set; }
+        public string Password { get; set; }
 
         public virtual ICollection<ApplyCasting> ApplyCasting { get; set; }
         public virtual ICollection<BodyPart> BodyPart { get; set; }

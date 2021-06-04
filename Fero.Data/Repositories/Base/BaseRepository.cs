@@ -18,6 +18,7 @@ namespace Fero.Data.Repository.Base
         void Create(T entity);
         t.Task CreateAsyn(T entity);
         void Update(T entity);
+        //void Update(Expression<Func<T, bool>> predicate);
         void Delete(T entity);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefaultAsyn(Expression<Func<T, bool>> predicate);
@@ -78,6 +79,11 @@ namespace Fero.Data.Repository.Base
         {
             return await this._dbSet.FindAsync(new object[1] { id });
         }
+
+/*        public void Update(T entity, Expression<Func<T, bool>> predicate)
+        {
+            _dbSet.Find(predicate).Update<T>(entity);
+        }*/
 
         public void Update(T entity)
         {

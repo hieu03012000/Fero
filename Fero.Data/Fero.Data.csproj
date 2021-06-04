@@ -23,10 +23,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GenRepo.cs</LastGenOutput>
     </None>
-    <None Update="GenService.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GenService.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,11 +34,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>GenRepo.tt</DependentUpon>
-    </Compile>
-    <Compile Update="GenService.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>GenService.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

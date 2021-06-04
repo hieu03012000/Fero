@@ -16,9 +16,10 @@ namespace Fero.Data.Models
         public string TaxCode { get; set; }
         public string Fanpage { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; }
         public bool? IsOutside { get; set; }
         public bool? Status { get; set; }
+        public string Password { get; set; }
 
         public virtual ICollection<Casting> Casting { get; set; }
     }

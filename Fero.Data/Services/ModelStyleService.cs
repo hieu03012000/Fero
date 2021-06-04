@@ -1,6 +1,9 @@
+using AutoMapper;
 using Fero.Data.Models;
 using Fero.Data.Repositories;
 using Fero.Data.Services.Base;
+using Fero.Data.ViewModels;
+using System.Threading.Tasks;
 
 namespace Fero.Data.Services
 {
@@ -9,6 +12,15 @@ namespace Fero.Data.Services
     }
     public partial class ModelStyleService:BaseService<ModelStyle>,IModelStyleService
     {
-        public ModelStyleService(IModelStyleRepository repository):base(repository){}
+        IMapper _mapper;
+        public ModelStyleService(IModelStyleRepository repository, IMapper mapper):base(repository)
+        {
+            _mapper = mapper;
+        }
+
+        public Task<UpdateModelStyleViewModel> UpdateModelStyle()
+        {
+            return null;
+        }
     }
 }

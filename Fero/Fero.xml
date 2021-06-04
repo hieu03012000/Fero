@@ -4,10 +4,32 @@
         <name>Fero</name>
     </assembly>
     <members>
-        <member name="M:Fero.Controllers.ApplyCastingsController.Gets">
+        <member name="M:Fero.Controllers.CustomersController.Gets(System.String)">
             <summary>
-            ahihi
+            Get casting by CusId
             </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.GetById(System.String)">
+            <summary>
+            Find model by ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.Create(Fero.Data.ViewModels.CreateModelAccountViewModel)">
+            <summary>
+            Create model account
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.Update(Fero.Data.ViewModels.UpdateModelProfileViewModel)">
+            <summary>
+            Update profile model
+            </summary>
+            <param name="entity"></param>
             <returns></returns>
         </member>
     </members>
