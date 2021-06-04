@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fero", "Fero\Fero.csproj", "{014BE3AE-89BC-41D8-AB29-37E599B8CBAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fero.Data", "Fero.Data\Fero.Data.csproj", "{30442AA3-75B0-435E-BD72-066F9F192253}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{014BE3AE-89BC-41D8-AB29-37E599B8CBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014BE3AE-89BC-41D8-AB29-37E599B8CBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014BE3AE-89BC-41D8-AB29-37E599B8CBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014BE3AE-89BC-41D8-AB29-37E599B8CBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30442AA3-75B0-435E-BD72-066F9F192253}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30442AA3-75B0-435E-BD72-066F9F192253}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30442AA3-75B0-435E-BD72-066F9F192253}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30442AA3-75B0-435E-BD72-066F9F192253}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {043EDF72-1283-4EA9-9DF4-E414D96BE569}
+	EndGlobalSection
+EndGlobal
