@@ -11,6 +11,21 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Fero.Controllers.CustomersController.UpdateCustomer(System.String,Fero.Data.Models.Customer)">
+            <summary>
+            Update customer
+            </summary>
+            <param name="id"></param>
+            <param name="customer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.CustomersController.GetById(System.String)">
+            <summary>
+            Get  customer profile
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Fero.Controllers.ModelsController.GetById(System.String)">
             <summary>
             Find model by ID
@@ -28,6 +43,13 @@
         <member name="M:Fero.Controllers.ModelsController.Update(Fero.Data.ViewModels.UpdateModelProfileViewModel)">
             <summary>
             Update profile model
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.UpdateModelStyle(System.String,Fero.Data.ViewModels.UpdateModelStyleViewModel)">
+            <summary>
+            Update model style
             </summary>
             <param name="entity"></param>
             <returns></returns>

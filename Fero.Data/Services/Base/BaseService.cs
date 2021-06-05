@@ -21,6 +21,7 @@ namespace Fero.Data.Services.Base
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefaultAsyn(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
+        Task RemoveRange(IQueryable<T> entitys);
     }
     public class BaseService<T> : IBaseService<T> where T : class
     {
@@ -93,6 +94,11 @@ namespace Fero.Data.Services.Base
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
             return _repository.FirstOrDefault(predicate);
+        }
+
+        public async Task RemoveRange(IQueryable<T> entitys)
+        {
+            await _repository.RemoveRange(entitys);
         }
     }
 }

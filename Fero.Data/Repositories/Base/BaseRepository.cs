@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Threading.Tasks;
 
 namespace Fero.Data.Repository.Base
 {
@@ -19,6 +18,7 @@ namespace Fero.Data.Repository.Base
         Task CreateAsyn(T entity);
         Task DeleteAsync(T entity);
         Task UpdateAsync(T entity);
+        Task RemoveRange(IQueryable<T> entity);
         IQueryable<T> Get(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefaultAsyn(Expression<Func<T, bool>> predicate);
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
@@ -63,9 +63,9 @@ namespace Fero.Data.Repository.Base
             return this._dbSet.FirstOrDefault();
         }
 
-        public Task<T> FirstOrDefaultAsyn()
+        public async Task<T> FirstOrDefaultAsyn()
         {
-            throw new NotImplementedException();
+            return await this._dbSet.FirstOrDefaultAsync();
         }
 
         public T Get<TKey>(TKey id)
@@ -105,6 +105,12 @@ namespace Fero.Data.Repository.Base
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
             return this._dbSet.FirstOrDefault(predicate);
+        }
+
+        public async Task RemoveRange(IQueryable<T> entitys)
+        {
+            _dbSet.RemoveRange(entitys);
+            await _dbContext.SaveChangesAsync();
         }
     }
         

@@ -21,6 +21,7 @@ namespace Fero.Data.Commons
                 mc.ConfigApplyCastingModule();
                 mc.ConfigSubscribeCastingModule();
                 mc.ConfigModelCastingModule();
+                mc.ConfigCustomerModule();
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);

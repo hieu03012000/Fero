@@ -17,6 +17,11 @@ namespace Fero.Data.AutoMapperModule
             mc.CreateMap<ModelStyle, ModelDetailModelStyleViewModel>()
                  .ForMember(des => des.StyleName, opt => opt.MapFrom(src => src.Style.Name));
             mc.CreateMap<ModelDetailModelStyleViewModel, ModelStyle>();
+
+            mc.CreateMap<ModelStyle, UpdateModelStyleViewModel>()
+                 .ForMember(des => des.Id, opt => opt.MapFrom(src => src.ModelId))
+                 .ForMember(des => des.ModelStyle, opt => opt.MapFrom(src => src.StyleId));
+            mc.CreateMap<UpdateModelStyleViewModel, ModelStyle>();
         }
     }
 }

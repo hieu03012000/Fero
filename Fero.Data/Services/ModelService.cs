@@ -9,6 +9,7 @@ using System.Net;
 using Reso.Core.Custom;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Fero.Data.Services
 {
@@ -17,14 +18,18 @@ namespace Fero.Data.Services
         Task<CreateModelAccountViewModel> CreateModelAccount(CreateModelAccountViewModel model);
         Task<ModelDetailViewModel> GetModelById(string modelId);
         Task<UpdateModelProfileViewModel> UpdateProfileModel(UpdateModelProfileViewModel model);
+        Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
         private readonly IMapper _mapper;
+        private readonly IModelStyleRepository _modelStyleRepository;
 
-        public ModelService(IModelRepository modelRepository, IMapper mapper): base(modelRepository)
+        public ModelService(IModelRepository modelRepository, IMapper mapper,
+            IModelStyleRepository modelStyleRepository) : base(modelRepository)
         {
             _mapper = mapper;
+            _modelStyleRepository = modelStyleRepository;
         }
 
         private string GetModelId()
@@ -59,6 +64,19 @@ namespace Fero.Data.Services
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
             var entity = _mapper.Map<Model>(model);
             await UpdateAsync(entity);
+            return model;
+        }
+
+        public async Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model)
+        {
+            if(id != model.Id)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not match id");
+            var list = _modelStyleRepository.Get(ms => ms.ModelId == model.Id);
+            if(list.Any())
+                await _modelStyleRepository.RemoveRange(list);
+            var updateModel = Get(x => x.Id == id).FirstOrDefault();
+            updateModel.ModelStyle = _mapper.Map<ICollection<ModelStyle>>(model.ModelStyle);
+            await UpdateAsync(updateModel);
             return model;
         }
     }

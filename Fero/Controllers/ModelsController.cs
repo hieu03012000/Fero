@@ -1,9 +1,8 @@
-using Fero.Data.Models;
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fero.Controllers
@@ -58,20 +57,33 @@ namespace Fero.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpPut("{id}")]
+        [HttpPut("{id}/profile")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(UpdateModelProfileViewModel entity)
         {
             return Ok(await _modelService.UpdateProfileModel(entity));
         }
 
+        /// <summary>
+        /// Update model style
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpDelete("{id}")]
-        public IActionResult Delete(string id,Model entity)
+        [HttpPut("{id}/style")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateModelStyle(string id, UpdateModelStyleViewModel entity)
         {
-            _modelService.DeleteAsync(entity);
-            return Ok();
+            return Ok(await _modelService.UpdateModelStyle(id, entity));
         }
+
+        //[MapToApiVersion("1.0")]
+        //[HttpDelete("{id}")]
+        //public IActionResult Delete(string id,Model entity)
+        //{
+        //    _modelService.DeleteAsync(entity);
+        //    return Ok();
+        //}
         //[MapToApiVersion("1.0")]
         //[HttpGet("count")]
         //public IActionResult Count()

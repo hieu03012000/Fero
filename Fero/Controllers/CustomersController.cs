@@ -1,4 +1,7 @@
+using Fero.Data.Models;
 using Fero.Data.Services;
+using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -32,6 +35,35 @@ namespace Fero.Controllers
             return Ok(await _castingService.GetCasting(id));
         }
 
+
+        /// <summary>
+        /// Update customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="customer"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("{id}/update")]
+        public async Task<IActionResult> UpdateCustomer(string id, Customer customer)
+        {
+            return Ok(await _customerService.UpdateCustomer(id, customer));
+        }
+
+        /// <summary>
+        /// Get  customer profile
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            return Ok(await _customerService.GetCustomerById(id));
+        }
 
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]

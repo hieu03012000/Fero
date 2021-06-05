@@ -2,6 +2,7 @@ using AutoMapper;
 using Fero.Data.Models;
 using Fero.Data.Repositories;
 using Fero.Data.Services.Base;
+using Fero.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Reso.Core.Custom;
 using System.Net;
@@ -11,6 +12,8 @@ namespace Fero.Data.Services
 {
     public partial interface ICustomerService:IBaseService<Customer>
     {
+        Task<Customer> GetCustomerById(string customerId);
+        Task<Customer> UpdateCustomer(string customerId, Customer updateProfile);
     }
     public partial class CustomerService:BaseService<Customer>,ICustomerService
     {

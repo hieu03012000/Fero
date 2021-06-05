@@ -17,10 +17,5 @@ namespace Fero.Data.Services
         {
             _mapper = mapper;
         }
-
-        public Task<UpdateModelStyleViewModel> UpdateModelStyle()
-        {
-            return null;
-        }
     }
 }
