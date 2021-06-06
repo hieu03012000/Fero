@@ -14,9 +14,26 @@ namespace Fero.Controllers
     public partial class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        public CustomersController(ICustomerService customerService)
+        private readonly ICastingService _castingService;
+        public CustomersController(ICustomerService customerService,
+            ICastingService castingService)
         {
+            _castingService = castingService;
             _customerService = customerService;
+        }
+
+        /// <summary>
+        /// Get  customer profile
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            return Ok(await _customerService.GetCustomerById(id));
         }
 
         /// <summary>
@@ -32,7 +49,20 @@ namespace Fero.Controllers
         {
             return Ok(await _customerService.GetCasting(id));
         }
-
+        
+        /// <summary>
+        /// Get casting by CusId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{customerId}/castings/{castingId}")]
+        public async Task<IActionResult> CastingDetail(string customerId,int castingId)
+        {
+            return Ok(await _castingService.ShowDetailCasting(customerId, castingId));
+        }
 
         /// <summary>
         /// Update customer
@@ -47,20 +77,6 @@ namespace Fero.Controllers
         public async Task<IActionResult> UpdateCustomer(string id, UpdateCustomerViewModel customer)
         {
             return Ok(await _customerService.UpdateCustomer(id, customer));
-        }
-
-        /// <summary>
-        /// Get  customer profile
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(string id)
-        {
-            return Ok(await _customerService.GetCustomerById(id));
         }
 
         //[HttpGet("{id}")]

@@ -8,7 +8,6 @@ namespace Fero.Data.Models
         public ModelCasting()
         {
             Payment = new HashSet<Payment>();
-            Task = new HashSet<Task>();
         }
 
         public int Id { get; set; }
@@ -23,6 +22,5 @@ namespace Fero.Data.Models
         public virtual Casting Casting { get; set; }
         public virtual Model Model { get; set; }
         public virtual ICollection<Payment> Payment { get; set; }
-        public virtual ICollection<Task> Task { get; set; }
     }
 }

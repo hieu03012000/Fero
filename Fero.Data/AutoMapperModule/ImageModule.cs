@@ -19,10 +19,13 @@ namespace Fero.Data.AutoMapperModule
             mc.CreateMap<Image, int>();
             mc.CreateMap<int, Image>()
                 .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src));
+      
+            mc.CreateMap<Image, ModelImageViewModel>();
+            mc.CreateMap<ModelImageViewModel, Image>();
             
-            //mc.CreateMap<Image, DeleteImageViewModel>()
-            //    .ForPath(dest => dest.Id, member => member.MapFrom(source => source));
-            //mc.CreateMap<DeleteImageViewModel, Image>();
+            mc.CreateMap<Image, AddImageViewModel>();
+            mc.CreateMap<AddImageViewModel, Image>()
+                .ForMember(dest => dest.UploadDate, opts => opts.MapFrom(src => DateTime.Now));
 
             mc.CreateMap<Image, ModelDetailImageViewModel>();
             mc.CreateMap<ModelDetailImageViewModel, Image>();

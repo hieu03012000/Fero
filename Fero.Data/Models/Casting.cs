@@ -10,6 +10,7 @@ namespace Fero.Data.Models
             ApplyCasting = new HashSet<ApplyCasting>();
             ModelCasting = new HashSet<ModelCasting>();
             SubscribeCasting = new HashSet<SubscribeCasting>();
+            Task = new HashSet<Task>();
         }
 
         public int Id { get; set; }
@@ -28,5 +29,6 @@ namespace Fero.Data.Models
         public virtual ICollection<ApplyCasting> ApplyCasting { get; set; }
         public virtual ICollection<ModelCasting> ModelCasting { get; set; }
         public virtual ICollection<SubscribeCasting> SubscribeCasting { get; set; }
+        public virtual ICollection<Task> Task { get; set; }
     }
 }

@@ -8,18 +8,26 @@ using System.Linq;
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/styles")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/styles")]
     public partial class StylesController : ControllerBase
     {
         private readonly IStyleService _styleService;
         public StylesController(IStyleService styleService){
             _styleService=styleService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_styleService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// Get all style
+        /// </summary>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet]
+        public IActionResult Gets()
+        {
+            return Ok(_styleService.Get().ToList());
+        }
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]

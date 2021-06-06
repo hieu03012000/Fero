@@ -436,10 +436,10 @@ namespace Fero.Data.Models
 
                 entity.Property(e => e.StartAt).HasColumnType("datetime");
 
-                entity.HasOne(d => d.ModelCasting)
+                entity.HasOne(d => d.Casting)
                     .WithMany(p => p.Task)
-                    .HasForeignKey(d => d.ModelCastingId)
-                    .HasConstraintName("FK_Task_ModelCasting");
+                    .HasForeignKey(d => d.CastingId)
+                    .HasConstraintName("FK_Task_Casting");
             });
 
             modelBuilder.Entity<Tattoo>(entity =>

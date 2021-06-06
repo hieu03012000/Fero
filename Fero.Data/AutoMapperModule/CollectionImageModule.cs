@@ -12,8 +12,7 @@ namespace Fero.Data.AutoMapperModule
         public static void ConfigCollectionImageModule(this IMapperConfigurationExpression mc)
         {
             mc.CreateMap<CollectionImage, CreateAccountCollectionImageViewModel>();
-            mc.CreateMap<CreateAccountCollectionImageViewModel, CollectionImage>()
-                .ForMember(dest => dest.Name, opts => opts.MapFrom(src => DateTime.Now));
+            mc.CreateMap<CreateAccountCollectionImageViewModel, CollectionImage>();
 
             mc.CreateMap<CollectionImage, ModelDetailCollectionImageViewModel>();
             mc.CreateMap<ModelDetailCollectionImageViewModel, CollectionImage>();

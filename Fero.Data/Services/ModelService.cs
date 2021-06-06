@@ -20,6 +20,9 @@ namespace Fero.Data.Services
         Task<UpdateModelProfileViewModel> UpdateProfileModel(UpdateModelProfileViewModel model);
         Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model);
         Task<DeleteImageViewModel> DeleteImage(string modelId, DeleteImageViewModel deleteImageViewModels);
+        Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId);
+        Task<IQueryable<GetAllModelViewModel>> GetAllModel();
+        Task<bool> ChangeStatus(string modelId);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
@@ -49,8 +52,17 @@ namespace Fero.Data.Services
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Duplicate");
             var entity = _mapper.Map<Model>(model);
             entity.Id = GetModelId();
+
             await CreateAsyn(entity);
             return model;
+        }
+
+        public async Task<IQueryable<GetAllModelViewModel>> GetAllModel()
+        {
+            if (await FirstOrDefaultAsyn() != null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have model");
+            var list = Get().ProjectTo<GetAllModelViewModel>(_mapper.ConfigurationProvider);
+            return list;
         }
 
         public async Task<ModelDetailViewModel> GetModelById(string modelId)
@@ -97,5 +109,26 @@ namespace Fero.Data.Services
             await _imageRepository.RemoveRange(image);
             return deleteImageViewModels;
         }
+
+        public async Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId)
+        {
+            if(await _imageRepository.Get(i => i.Collection.BodyPart.Model.Id == modelId).FirstOrDefaultAsync() == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
+            var image = _imageRepository.Get(i => i.Collection.BodyPart.Model.Id == modelId)
+                .ProjectTo<ModelImageViewModel>(_mapper.ConfigurationProvider);
+            return image;
+        }
+
+        public async Task<bool> ChangeStatus(string modelId)
+        {
+            var model = await Get(i => i.Id == modelId).FirstOrDefaultAsync();
+            if (model == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
+            model.Status = !model.Status;
+            await UpdateAsync(model);
+            return model.Status;
+        }
+
+        //public async Task
     }
 }

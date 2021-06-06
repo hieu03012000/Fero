@@ -4,7 +4,21 @@
         <name>Fero</name>
     </assembly>
     <members>
+        <member name="M:Fero.Controllers.CustomersController.GetById(System.String)">
+            <summary>
+            Get  customer profile
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Fero.Controllers.CustomersController.Gets(System.String)">
+            <summary>
+            Get casting by CusId
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.CustomersController.CastingDetail(System.String,System.Int32)">
             <summary>
             Get casting by CusId
             </summary>
@@ -19,11 +33,10 @@
             <param name="customer"></param>
             <returns></returns>
         </member>
-        <member name="M:Fero.Controllers.CustomersController.GetById(System.String)">
+        <member name="M:Fero.Controllers.ModelsController.Gets">
             <summary>
-            Get  customer profile
+            Get all model list
             </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Fero.Controllers.ModelsController.GetById(System.String)">
@@ -33,11 +46,26 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Fero.Controllers.ModelsController.GetModelImage(System.String)">
+            <summary>
+            Get all image of model
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:Fero.Controllers.ModelsController.Create(Fero.Data.ViewModels.CreateModelAccountViewModel)">
             <summary>
             Create model account
             </summary>
             <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.UpdateStatus(System.String)">
+            <summary>
+            Update model status 
+            </summary>
+            <param name="modelId"></param>
+            <param name="status"></param>
             <returns></returns>
         </member>
         <member name="M:Fero.Controllers.ModelsController.Update(Fero.Data.ViewModels.UpdateModelProfileViewModel)">
@@ -56,9 +84,15 @@
         </member>
         <member name="M:Fero.Controllers.ModelsController.DeleteImage(System.String,Fero.Data.ViewModels.DeleteImageViewModel)">
             <summary>
-            Update model style
+            Delete model image
             </summary>
             <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.StylesController.Gets">
+            <summary>
+            Get all style
+            </summary>
             <returns></returns>
         </member>
     </members>

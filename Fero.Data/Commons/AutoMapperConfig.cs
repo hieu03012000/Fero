@@ -11,6 +11,7 @@ namespace Fero.Data.Commons
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.ConfigModelModule();
+                mc.ConfigTaskModule();
                 mc.ConfigBodyPartModule();
                 mc.ConfigModelStyleModule();
                 mc.ConfigProductModule();

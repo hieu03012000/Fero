@@ -4,22 +4,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/staffs")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/staffs")]
     public partial class StaffsController : ControllerBase
     {
         private readonly IStaffService _staffService;
-        public StaffsController(IStaffService staffService){
+        private readonly IModelService _modelService;
+        public StaffsController(IStaffService staffService,
+            IModelService modelService){
+            _modelService = modelService;
             _staffService=staffService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_staffService.Get().ToList());
-        //}
+
+        
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
