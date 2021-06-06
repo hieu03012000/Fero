@@ -9,42 +9,30 @@ using System.Net;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Fero.Data.ViewModels;
+using AutoMapper.QueryableExtensions;
 
 namespace Fero.Data.Services
 {
     public partial interface ICastingService : IBaseService<Casting>
     {
-        Task<List<Casting>> GetCasting(string customerId);
         Task<List<CustomerCasting>> ShowCasting(string customerId);
         Task<List<CustomerCasting>> ShowDetailCasting(string customerId);
     }
     public partial class CastingService : BaseService<Casting>, ICastingService
     {
         private readonly IMapper _mapper;
-        private readonly ICastingRepository _castingRepository;
 
-        public CastingService(ICastingRepository castingRepository, ICustomerRepository customerRepository, IMapper mapper) : base(castingRepository)
+        public CastingService(ICastingRepository castingRepository, IMapper mapper) : base(castingRepository)
         {
             _mapper = mapper;
-            _castingRepository = castingRepository;
         }
 
-        public async Task<List<Casting>> GetCasting(string customerId)
-        {
-            var customerCasting = await _castingRepository.Get(x => x.CustomerId == customerId).ToListAsync();
-            if (customerCasting == null)
-            {
-                throw new ErrorResponse((int)HttpStatusCode.NotFound, "User not found");
-            }
-            else
-            {
-                return customerCasting;
-            }
-        }
+        
 
         public async Task<List<CustomerCasting>> ShowCasting(string customerId)
         {
-            var customerCasting = await _castingRepository.Get(x => x.CustomerId == customerId)
+            var customerCasting = await Get(x => x.CustomerId == customerId)
                 .Select(x => new CustomerCasting
                 {
                     Salary = x.Salary,
@@ -63,7 +51,7 @@ namespace Fero.Data.Services
 
         public async Task<List<CustomerCasting>> ShowDetailCasting(string customerId)
         {
-            var customerCasting = await _castingRepository.Get(x => x.CustomerId == customerId)
+            var customerCasting = await Get(x => x.CustomerId == customerId)
                 .Select(x => new CustomerCasting
                 {
                     Salary = x.Salary,

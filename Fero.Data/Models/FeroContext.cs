@@ -208,6 +208,8 @@ namespace Fero.Data.Models
 
                 entity.Property(e => e.TaxCode).HasMaxLength(20);
 
+                entity.Property(e => e.Token).IsUnicode(false);
+
                 entity.Property(e => e.Username)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -249,6 +251,8 @@ namespace Fero.Data.Models
             modelBuilder.Entity<Model>(entity =>
             {
                 entity.Property(e => e.Id).HasMaxLength(10);
+
+                entity.Property(e => e.Avatar).HasMaxLength(200);
 
                 entity.Property(e => e.Country).HasMaxLength(50);
 

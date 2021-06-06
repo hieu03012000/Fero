@@ -3,6 +3,7 @@ using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fero.Controllers
@@ -76,6 +77,20 @@ namespace Fero.Controllers
         {
             return Ok(await _modelService.UpdateModelStyle(id, entity));
         }
+
+        /// <summary>
+        /// Update model style
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpDelete("{id}/image")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteImage(string id, DeleteImageViewModel entity)
+        {
+            return Ok(await _modelService.DeleteImage(id, entity));
+        }
+
 
         //[MapToApiVersion("1.0")]
         //[HttpDelete("{id}")]

@@ -30,6 +30,7 @@ namespace Fero.Data.Models
         public string Gifted { get; set; }
         public bool Status { get; set; }
         public string Password { get; set; }
+        public string Avatar { get; set; }
 
         public virtual ICollection<ApplyCasting> ApplyCasting { get; set; }
         public virtual ICollection<BodyPart> BodyPart { get; set; }

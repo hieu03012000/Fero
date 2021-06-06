@@ -11,7 +11,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Fero.Controllers.CustomersController.UpdateCustomer(System.String,Fero.Data.Models.Customer)">
+        <member name="M:Fero.Controllers.CustomersController.UpdateCustomer(System.String,Fero.Data.ViewModels.UpdateCustomerViewModel)">
             <summary>
             Update customer
             </summary>
@@ -48,6 +48,13 @@
             <returns></returns>
         </member>
         <member name="M:Fero.Controllers.ModelsController.UpdateModelStyle(System.String,Fero.Data.ViewModels.UpdateModelStyleViewModel)">
+            <summary>
+            Update model style
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fero.Controllers.ModelsController.DeleteImage(System.String,Fero.Data.ViewModels.DeleteImageViewModel)">
             <summary>
             Update model style
             </summary>

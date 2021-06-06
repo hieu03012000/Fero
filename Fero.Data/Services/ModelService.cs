@@ -19,17 +19,21 @@ namespace Fero.Data.Services
         Task<ModelDetailViewModel> GetModelById(string modelId);
         Task<UpdateModelProfileViewModel> UpdateProfileModel(UpdateModelProfileViewModel model);
         Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model);
+        Task<DeleteImageViewModel> DeleteImage(string modelId, DeleteImageViewModel deleteImageViewModels);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
         private readonly IMapper _mapper;
         private readonly IModelStyleRepository _modelStyleRepository;
+        private readonly IImageRepository _imageRepository;
 
         public ModelService(IModelRepository modelRepository, IMapper mapper,
-            IModelStyleRepository modelStyleRepository) : base(modelRepository)
+            IModelStyleRepository modelStyleRepository,
+            IImageRepository imageRepository) : base(modelRepository)
         {
             _mapper = mapper;
             _modelStyleRepository = modelStyleRepository;
+            _imageRepository = imageRepository;
         }
 
         private string GetModelId()
@@ -78,6 +82,20 @@ namespace Fero.Data.Services
             updateModel.ModelStyle = _mapper.Map<ICollection<ModelStyle>>(model.ModelStyle);
             await UpdateAsync(updateModel);
             return model;
+        }
+
+        public async Task<DeleteImageViewModel> DeleteImage(string modelId, DeleteImageViewModel deleteImageViewModels)
+        {
+            var image = _imageRepository.Get(i => deleteImageViewModels.Id.Contains(i.Id));
+            await _imageRepository.RemoveRange(image);
+            return deleteImageViewModels;
+        }
+
+        public async Task<DeleteImageViewModel> AddImage(string modelId, DeleteImageViewModel deleteImageViewModels)
+        {
+            var image = _imageRepository.Get(i => deleteImageViewModels.Id.Contains(i.Id));
+            await _imageRepository.RemoveRange(image);
+            return deleteImageViewModels;
         }
     }
 }

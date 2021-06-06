@@ -8,9 +8,9 @@ namespace Fero.Data.AutoMapperModule
     {
         public static void ConfigCastingModule(this IMapperConfigurationExpression mc)
         {
-            //mc.CreateMap<Casting, GetAllCastingViewModel>()
-            //    .ForMember(des => des.CustomerName, opt => opt.MapFrom(src => src.Customer.Name));
-            //mc.CreateMap<GetAllCastingViewModel, Casting>();
+            mc.CreateMap<Casting, GetCastingViewModel>()
+                .ForMember(des => des.CustomerName, opt => opt.MapFrom(src => src.Customer.Name));
+            mc.CreateMap<GetCastingViewModel, Casting>();
 
             //mc.CreateMap<Casting, DetailCastingViewModel>()
             //    .ForMember(des => des.CustomerName, opt => opt.MapFrom(src => src.Customer.Name));

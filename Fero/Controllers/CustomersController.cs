@@ -14,11 +14,9 @@ namespace Fero.Controllers
     public partial class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        private readonly ICastingService _castingService;
-        public CustomersController(ICustomerService customerService, ICastingService castingService)
+        public CustomersController(ICustomerService customerService)
         {
             _customerService = customerService;
-            _castingService = castingService;
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace Fero.Controllers
         [HttpGet("{id}/castings")]
         public async Task<IActionResult> Gets(string id)
         {
-            return Ok(await _castingService.GetCasting(id));
+            return Ok(await _customerService.GetCasting(id));
         }
 
 
@@ -46,7 +44,7 @@ namespace Fero.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("{id}/update")]
-        public async Task<IActionResult> UpdateCustomer(string id, Customer customer)
+        public async Task<IActionResult> UpdateCustomer(string id, UpdateCustomerViewModel customer)
         {
             return Ok(await _customerService.UpdateCustomer(id, customer));
         }

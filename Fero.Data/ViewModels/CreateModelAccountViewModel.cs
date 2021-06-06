@@ -19,6 +19,7 @@ namespace Fero.Data.ViewModels
         public string Username { get; set; }
         public string Gifted { get; set; }
         public string Password { get; set; }
+        public string Avatar { get; set; }
         public virtual ICollection<CreateAccountBodyPartViewModel> BodyPart { get; set; }
         public virtual ICollection<CreateAccountModelStyleViewModel> ModelStyle { get; set; }
         public virtual ICollection<CreateAccountProductViewModel> Product { get; set; }
@@ -58,9 +59,6 @@ namespace Fero.Data.ViewModels
         {
             Image = new HashSet<CreateAccountImageViewModel>();
         }
-
-        public string Name { get; set; }
-
         public virtual ICollection<CreateAccountImageViewModel> Image { get; set; }
     }
 
@@ -68,7 +66,6 @@ namespace Fero.Data.ViewModels
     {
         public string Extension { get; set; }
         public string FileName { get; set; }
-        public DateTime UploadDate { get; set; }
 
     }
 }
