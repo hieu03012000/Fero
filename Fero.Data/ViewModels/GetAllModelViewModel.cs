@@ -10,8 +10,8 @@ namespace Fero.Data.ViewModels
         {
             ModelStyle = new HashSet<ModelDetailModelStyleViewModel>();
         }
-
-
+        public string Id { get; set; }
+        public string Avatar { get; set; }
         public string Name { get; set; }
         public byte Gender { get; set; }
         public DateTime DateOfBirth { get; set; }

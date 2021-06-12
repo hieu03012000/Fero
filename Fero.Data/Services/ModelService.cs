@@ -59,7 +59,7 @@ namespace Fero.Data.Services
 
         public async Task<IQueryable<GetAllModelViewModel>> GetAllModel()
         {
-            if (await FirstOrDefaultAsyn() != null)
+            if (await FirstOrDefaultAsyn() == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have model");
             var list = Get().ProjectTo<GetAllModelViewModel>(_mapper.ConfigurationProvider);
             return list;

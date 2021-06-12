@@ -15,6 +15,9 @@ namespace Fero.Data.AutoMapperModule
             mc.CreateMap<Model, ModelDetailViewModel>();
             mc.CreateMap<ModelDetailViewModel, Model>();
             
+            mc.CreateMap<Model, GetAllModelViewModel>();
+            mc.CreateMap<GetAllModelViewModel, Model>();
+            
             mc.CreateMap<Model, UpdateModelProfileViewModel>();
             mc.CreateMap<UpdateModelProfileViewModel, Model>();
                   

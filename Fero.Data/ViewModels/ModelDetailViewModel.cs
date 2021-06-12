@@ -7,9 +7,9 @@ namespace Fero.Data.ViewModels
     {
         public ModelDetailViewModel()
         {
-            BodyPart = new HashSet<ModelDetailBodyPartViewModel>();
-            ModelStyle = new HashSet<ModelDetailModelStyleViewModel>();
-            Product = new HashSet<ModelDetailProductViewModel>();
+            //BodyPart = new HashSet<ModelDetailBodyPartViewModel>();
+            //ModelStyle = new HashSet<ModelDetailModelStyleViewModel>();
+            //Product = new HashSet<ModelDetailProductViewModel>();
         }
         public string Name { get; set; }
         public byte Gender { get; set; }
@@ -17,9 +17,9 @@ namespace Fero.Data.ViewModels
         public string SubAddress { get; set; }
         public string Phone { get; set; }
         public string Gifted { get; set; }
-        public virtual ICollection<ModelDetailBodyPartViewModel> BodyPart { get; set; }
-        public virtual ICollection<ModelDetailModelStyleViewModel> ModelStyle { get; set; }
-        public virtual ICollection<ModelDetailProductViewModel> Product { get; set; }
+        //public virtual ICollection<ModelDetailBodyPartViewModel> BodyPart { get; set; }
+        //public virtual ICollection<ModelDetailModelStyleViewModel> ModelStyle { get; set; }
+        //public virtual ICollection<ModelDetailProductViewModel> Product { get; set; }
     }
 
     public class ModelDetailBodyPartViewModel
