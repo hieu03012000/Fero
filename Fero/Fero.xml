@@ -4,6 +4,12 @@
         <name>Fero</name>
     </assembly>
     <members>
+        <member name="M:Fero.Controllers.CastingsController.Gets">
+            <summary>
+            get all casting
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Fero.Controllers.CustomersController.GetById(System.String)">
             <summary>
             Get  customer profile

@@ -93,7 +93,7 @@ namespace Fero.Controllers
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/profile")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update(UpdateModelProfileViewModel entity)
+        public async Task<IActionResult> Update([FromBody]UpdateModelProfileViewModel entity)
         {
             return Ok(await _modelService.UpdateProfileModel(entity));
         }

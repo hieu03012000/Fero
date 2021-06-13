@@ -4,22 +4,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/castings")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/castings")]
     public partial class CastingsController : ControllerBase
     {
         private readonly ICastingService _castingService;
         public CastingsController(ICastingService castingService){
             _castingService=castingService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_castingService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// get all casting
+        /// </summary>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet]
+        public async Task<IActionResult> Gets()
+        {
+            return Ok(await _castingService.GetCastingList());
+        }
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]

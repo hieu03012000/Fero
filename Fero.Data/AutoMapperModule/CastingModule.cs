@@ -12,8 +12,8 @@ namespace Fero.Data.AutoMapperModule
                 .ForMember(des => des.CustomerName, opt => opt.MapFrom(src => src.Customer.Name));
             mc.CreateMap<GetCastingViewModel, Casting>();
 
-            //mc.CreateMap<Casting, CreateCastingCallViewModel>();
-            //mc.CreateMap<CreateCastingCallViewModel, Casting>();
+            mc.CreateMap<Casting, CastingListViewModel>();
+            mc.CreateMap<CastingListViewModel, Casting>();
 
             //mc.CreateMap<Casting, MakeOfferViewModel>();
             //mc.CreateMap<MakeOfferViewModel, Casting>();

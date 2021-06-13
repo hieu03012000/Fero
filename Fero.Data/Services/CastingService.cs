@@ -8,12 +8,14 @@ using System.Net;
 using Microsoft.EntityFrameworkCore;
 using Fero.Data.ViewModels;
 using AutoMapper.QueryableExtensions;
+using System.Linq;
 
 namespace Fero.Data.Services
 {
     public partial interface ICastingService : IBaseService<Casting>
     {
         Task<GetCastingViewModel> ShowDetailCasting(string customerId, int c);
+        Task<IQueryable<CastingListViewModel>> GetCastingList();
     }
     public partial class CastingService : BaseService<Casting>, ICastingService
     {
@@ -71,6 +73,12 @@ namespace Fero.Data.Services
             await _castingRepository.CreateAsyn(casting);
         }
 
-
+        public async Task<IQueryable<CastingListViewModel>> GetCastingList()
+        {
+            if (await FirstOrDefaultAsyn() == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have model");
+            var list = Get().ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
+            return list;
+        }
     }
 }
