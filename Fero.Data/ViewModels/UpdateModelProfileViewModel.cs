@@ -10,8 +10,6 @@ namespace Fero.Data.ViewModels
         public DateTime DateOfBirth { get; set; }
         public string SubAddress { get; set; }
         public string Phone { get; set; }
-        public string Username { get; set; }
         public string Gifted { get; set; }
-        public string Password { get; set; }
     }
 }

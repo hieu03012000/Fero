@@ -11,6 +11,8 @@ namespace Fero.Data.ViewModels
             //ModelStyle = new HashSet<ModelDetailModelStyleViewModel>();
             //Product = new HashSet<ModelDetailProductViewModel>();
         }
+        public string Id { get; set; }
+        public string Username { get; set; }
         public string Name { get; set; }
         public byte Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
