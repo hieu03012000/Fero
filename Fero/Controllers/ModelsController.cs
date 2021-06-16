@@ -80,9 +80,9 @@ namespace Fero.Controllers
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/status")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateStatus(string modelId)
+        public async Task<IActionResult> UpdateStatus(string id)
         {
-            return Ok(await _modelService.ChangeStatus(modelId));
+            return Ok(await _modelService.ChangeStatus(id));
         }
 
         /// <summary>
