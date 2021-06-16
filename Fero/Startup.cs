@@ -59,7 +59,7 @@ namespace Fero
                     },
                 });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.IncludeXmlComments(XmlCommentsFilePath);
+                //c.IncludeXmlComments(XmlCommentsFilePath);
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
