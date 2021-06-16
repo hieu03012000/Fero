@@ -75,9 +75,9 @@ namespace Fero.Data.Services
 
         public async Task<IQueryable<CastingListViewModel>> GetCastingList()
         {
-            if (await FirstOrDefaultAsyn() == null)
-                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have model");
-            var list = Get().ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
+            if (await Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).FirstOrDefaultAsync() == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
+            var list = Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
             return list;
         }
     }
