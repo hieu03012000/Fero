@@ -19,6 +19,7 @@ namespace Fero.Data.ViewModels
         public string SubAddress { get; set; }
         public string Phone { get; set; }
         public string Gifted { get; set; }
+        public string Avatar { get; set; }
         //public virtual ICollection<ModelDetailBodyPartViewModel> BodyPart { get; set; }
         //public virtual ICollection<ModelDetailModelStyleViewModel> ModelStyle { get; set; }
         //public virtual ICollection<ModelDetailProductViewModel> Product { get; set; }
