@@ -1,9 +1,10 @@
+using Fero.Data.Helpers;
+using Fero.Data.Models;
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Fero.Controllers
@@ -14,16 +15,18 @@ namespace Fero.Controllers
     public partial class ModelsController : ControllerBase
     {
         private readonly IModelService _modelService;
-        public ModelsController(IModelService modelService){
-            _modelService=modelService;
+        public ModelsController(IModelService modelService)
+        {
+            _modelService = modelService;
         }
-       
+
         /// <summary>
         /// Get all model list
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [MapToApiVersion("1.0")]
+        //[Authorize]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _modelService.GetAllModel());
@@ -34,15 +37,16 @@ namespace Fero.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [MapToApiVersion("1.0")]
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(string id)
-        {
-            return Ok(await _modelService.GetModelById(id));
-        }
-        
+        /*        [MapToApiVersion("1.0")]
+                [HttpGet("{id}")]
+                [ProducesResponseType(StatusCodes.Status200OK)]
+                [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+                public async Task<IActionResult> GetById(string id)
+                {
+                    return Ok(await _modelService.GetModelById(id));
+                }*/
+
         /// <summary>
         /// Get all image of model
         /// </summary>
@@ -80,9 +84,9 @@ namespace Fero.Controllers
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/status")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateStatus(string id)
+        public async Task<IActionResult> UpdateStatus(string modelId)
         {
-            return Ok(await _modelService.ChangeStatus(id));
+            return Ok(await _modelService.ChangeStatus(modelId));
         }
 
         /// <summary>
@@ -93,7 +97,7 @@ namespace Fero.Controllers
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/profile")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromBody]UpdateModelProfileViewModel entity)
+        public async Task<IActionResult> Update(UpdateModelProfileViewModel entity)
         {
             return Ok(await _modelService.UpdateProfileModel(entity));
         }
@@ -123,7 +127,7 @@ namespace Fero.Controllers
         {
             return Ok(await _modelService.DeleteImage(id, entity));
         }
-        
+
         ///// <summary>
         ///// Add model image
         ///// </summary>
@@ -151,5 +155,24 @@ namespace Fero.Controllers
         //{
         //    return Ok(_modelService.Count());
         //}
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(ModelLogin model)
+        {
+            var response = _modelService.Authenticate(model);
+
+            if (response == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("authenticate")]
+        public IEnumerable<Model> GetS()
+        {
+            var user = _modelService.GetAll();
+            return user;
+        }
     }
 }

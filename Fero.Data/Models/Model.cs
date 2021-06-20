@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fero.Data.Models
 {
@@ -39,5 +40,33 @@ namespace Fero.Data.Models
         public virtual ICollection<ModelStyle> ModelStyle { get; set; }
         public virtual ICollection<Product> Product { get; set; }
         public virtual ICollection<SubscribeCasting> SubscribeCasting { get; set; }
+    }
+
+    public class ModelLogin
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+    }
+
+    public class AuthenticateResponse
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Username { get; set; }
+        public string Phone { get; set; }
+        public string Token { get; set; }
+
+
+        public AuthenticateResponse(Model model, string token)
+        {
+            Id = model.Id;
+            Name = model.Name;
+            Username = model.Username;
+            Phone = model.Phone;
+            Token = token;
+        }
     }
 }

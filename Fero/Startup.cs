@@ -1,4 +1,5 @@
 using Fero.Data.Commons;
+using Fero.Data.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,7 +60,7 @@ namespace Fero
                     },
                 });
                 c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API", Version = "v1" });
-                //c.IncludeXmlComments(XmlCommentsFilePath);
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -89,6 +90,8 @@ namespace Fero
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
         static string XmlCommentsFilePath
         {
@@ -118,6 +121,15 @@ namespace Fero
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();
