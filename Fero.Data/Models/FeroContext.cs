@@ -225,9 +225,9 @@ namespace Fero.Data.Models
 
                 entity.Property(e => e.FileName)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(200);
 
-                entity.Property(e => e.UploadDate).HasColumnType("date");
+                entity.Property(e => e.UploadDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Collection)
                     .WithMany(p => p.Image)
@@ -434,12 +434,19 @@ namespace Fero.Data.Models
             {
                 entity.Property(e => e.EndAt).HasColumnType("datetime");
 
+                entity.Property(e => e.ModelId).HasMaxLength(10);
+
                 entity.Property(e => e.StartAt).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Casting)
                     .WithMany(p => p.Task)
                     .HasForeignKey(d => d.CastingId)
                     .HasConstraintName("FK_Task_Casting");
+
+                entity.HasOne(d => d.Model)
+                    .WithMany(p => p.Task)
+                    .HasForeignKey(d => d.ModelId)
+                    .HasConstraintName("FK_Task_Model");
             });
 
             modelBuilder.Entity<Tattoo>(entity =>

@@ -8,7 +8,8 @@ namespace Fero.Data.AutoMapperModule
     {
         public static void ConfigTaskModule(this IMapperConfigurationExpression mc)
         {
-            mc.CreateMap<Task, ModelScheduleViewModel>();
+            mc.CreateMap<Task, ModelScheduleViewModel>()
+                .ForMember(des => des.CastingName, opt => opt.MapFrom(src => src.Casting.Name));
             mc.CreateMap<ModelScheduleViewModel, Task>();
         }
     }

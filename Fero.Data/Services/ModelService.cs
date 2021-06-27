@@ -20,22 +20,34 @@ namespace Fero.Data.Services
         Task<UpdateModelProfileViewModel> UpdateProfileModel(UpdateModelProfileViewModel model);
         Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model);
         Task<DeleteImageViewModel> DeleteImage(string modelId, DeleteImageViewModel deleteImageViewModels);
+        Task<AddImageViewModel> AddImage(string modelId, AddImageViewModel addImageViewModel);
         Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId);
         Task<IQueryable<GetAllModelViewModel>> GetAllModel();
         Task<bool> ChangeStatus(string modelId);
+        Task<bool> UpdateAvatar(UpdateAvatarViewModel viewModel);
+        Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
         private readonly IMapper _mapper;
         private readonly IModelStyleRepository _modelStyleRepository;
         private readonly IImageRepository _imageRepository;
+        private readonly ICollectionImageRepository _collectionImageRepository;
+        private readonly IBodyPartRepository _bodyPartRepository;
+        private readonly ITaskRepository _taskRepository;
 
         public ModelService(IModelRepository modelRepository, IMapper mapper,
             IModelStyleRepository modelStyleRepository,
+            ICollectionImageRepository collectionImageRepository,
+            IBodyPartRepository bodyPartRepository,
+            ITaskRepository taskRepository,
             IImageRepository imageRepository) : base(modelRepository)
         {
             _mapper = mapper;
             _modelStyleRepository = modelStyleRepository;
+            _collectionImageRepository = collectionImageRepository;
+            _bodyPartRepository = bodyPartRepository;
+            _taskRepository = taskRepository;
             _imageRepository = imageRepository;
         }
 
@@ -104,18 +116,30 @@ namespace Fero.Data.Services
             return deleteImageViewModels;
         }
 
-        public async Task<DeleteImageViewModel> AddImage(string modelId, DeleteImageViewModel deleteImageViewModels)
+        public async Task<AddImageViewModel> AddImage(string modelId, AddImageViewModel addImageViewModel)
         {
-            var image = _imageRepository.Get(i => deleteImageViewModels.Id.Contains(i.Id));
-            await _imageRepository.RemoveRange(image);
-            return deleteImageViewModels;
+            var collectionId = await _collectionImageRepository.Get(m => m.BodyPart.ModelId == modelId && m.BodyPart.BodyPartTypeId == 24).FirstOrDefaultAsync();
+            if(collectionId == null)
+            {
+                var bodPartId = _bodyPartRepository.Get(b => b.ModelId == modelId && b.BodyPartTypeId == 24).FirstOrDefault();
+                var newCollection = new CollectionImage
+                {
+                    BodyPartId = bodPartId.Id,
+                    Name = modelId
+                };
+                await _collectionImageRepository.CreateAsyn(newCollection);
+            }
+            var entity = _mapper.Map<Image>(addImageViewModel);
+            entity.CollectionId = collectionId.Id;
+            await _imageRepository.CreateAsyn(entity);
+            return addImageViewModel;
         }
 
         public async Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId)
         {
             if(await _imageRepository.Get(i => i.Collection.BodyPart.Model.Id == modelId).FirstOrDefaultAsync() == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
-            var image = _imageRepository.Get(i => i.Collection.BodyPart.Model.Id == modelId)
+            var image = _imageRepository.Get(i => i.Collection.BodyPart.Model.Id == modelId).OrderByDescending(m => m.UploadDate)
                 .ProjectTo<ModelImageViewModel>(_mapper.ConfigurationProvider);
             return image;
         }
@@ -130,6 +154,25 @@ namespace Fero.Data.Services
             return model.Status;
         }
 
-        //public async Task
+        public async Task<bool> UpdateAvatar(UpdateAvatarViewModel viewModel)
+        {
+            var model = await Get(i => i.Id == viewModel.Id).FirstOrDefaultAsync();
+            if (model == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
+            model.Avatar = viewModel.Avatar;
+            await UpdateAsync(model);
+            return true;
+        }
+
+
+        public async Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId)
+        {
+            var model = await _taskRepository.Get(i => i.ModelId == modelId).FirstOrDefaultAsync();
+            if(model == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
+            var taskList = _taskRepository.Get(i => i.ModelId == modelId)
+                .ProjectTo<ModelScheduleViewModel>(_mapper.ConfigurationProvider);
+            return taskList;
+        }
     }
 }

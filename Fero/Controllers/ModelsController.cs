@@ -49,7 +49,7 @@ namespace Fero.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("{id}/image")]
+        [HttpGet("{id}/images")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetModelImage(string id)
@@ -117,11 +117,52 @@ namespace Fero.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpDelete("{id}/image")]
+        [HttpPut("{id}/image")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteImage(string id, DeleteImageViewModel entity)
         {
             return Ok(await _modelService.DeleteImage(id, entity));
+        }
+        
+        /// <summary>
+        /// Delete model image
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpPost("{id}/image")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddImage(string id, AddImageViewModel entity)
+        {
+            return Ok(await _modelService.AddImage(id, entity));
+        }
+        
+        /// <summary>
+        /// update avt
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpPut("{id}/avatar")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateAvatar(string id, UpdateAvatarViewModel entity)
+        {
+            return Ok(await _modelService.UpdateAvatar(entity));
+        }
+        
+        /// <summary>
+        /// Get task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("{id}/tasks")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetTask(string id)
+        {
+            return Ok(await _modelService.GetModelTask(id));
         }
         
         ///// <summary>

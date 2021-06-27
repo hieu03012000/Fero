@@ -14,6 +14,7 @@ namespace Fero.Data.Models
             ModelStyle = new HashSet<ModelStyle>();
             Product = new HashSet<Product>();
             SubscribeCasting = new HashSet<SubscribeCasting>();
+            Task = new HashSet<Task>();
         }
 
         public string Id { get; set; }
@@ -39,5 +40,6 @@ namespace Fero.Data.Models
         public virtual ICollection<ModelStyle> ModelStyle { get; set; }
         public virtual ICollection<Product> Product { get; set; }
         public virtual ICollection<SubscribeCasting> SubscribeCasting { get; set; }
+        public virtual ICollection<Task> Task { get; set; }
     }
 }

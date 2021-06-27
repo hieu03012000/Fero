@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Fero.Data.ViewModels
 {
-    public class AddImageViewModel
+    class CreateCollectonViewModel
     {
-        public string FileName { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace Fero.Data.ViewModels
         public byte Status { get; set; }
         public int? CastingId { get; set; }
         public string CastingName { get; set; }
+        public string ModelId { get; set; }
     }
 }

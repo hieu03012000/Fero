@@ -25,6 +25,7 @@ namespace Fero.Data.AutoMapperModule
             
             mc.CreateMap<Image, AddImageViewModel>();
             mc.CreateMap<AddImageViewModel, Image>()
+                .ForMember(dest => dest.Extension, opts => opts.MapFrom(src => "jpg"))
                 .ForMember(dest => dest.UploadDate, opts => opts.MapFrom(src => DateTime.Now));
 
             mc.CreateMap<Image, ModelDetailImageViewModel>();
