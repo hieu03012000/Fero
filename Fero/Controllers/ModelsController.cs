@@ -165,6 +165,19 @@ namespace Fero.Controllers
             return Ok(await _modelService.GetModelTask(id));
         }
         
+        /// <summary>
+        /// get model by mail
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("{mail}/model")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetModelByMail(string mail)
+        {
+            return Ok(await _modelService.GetModelTaskByMail(mail));
+        }
+        
         ///// <summary>
         ///// Add model image
         ///// </summary>

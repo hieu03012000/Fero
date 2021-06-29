@@ -26,6 +26,7 @@ namespace Fero.Data.Services
         Task<bool> ChangeStatus(string modelId);
         Task<bool> UpdateAvatar(UpdateAvatarViewModel viewModel);
         Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId);
+        Task<AfterLoginViewModel> GetModelTaskByMail(string mail);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
@@ -173,6 +174,13 @@ namespace Fero.Data.Services
             var taskList = _taskRepository.Get(i => i.ModelId == modelId)
                 .ProjectTo<ModelScheduleViewModel>(_mapper.ConfigurationProvider);
             return taskList;
+        }
+
+        public async Task<AfterLoginViewModel> GetModelTaskByMail(string mail)
+        {
+            var model = await FirstOrDefaultAsyn(m => m.Username == mail);
+            if (model == null) return null;
+            return _mapper.Map<AfterLoginViewModel>(model);
         }
     }
 }
