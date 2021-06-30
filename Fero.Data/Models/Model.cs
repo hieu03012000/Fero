@@ -29,7 +29,7 @@ namespace Fero.Data.Models
         public string Phone { get; set; }
         public string Username { get; set; }
         public string Gifted { get; set; }
-        public bool Status { get; set; }
+        public int? Status { get; set; }
         public string Password { get; set; }
         public string Avatar { get; set; }
 

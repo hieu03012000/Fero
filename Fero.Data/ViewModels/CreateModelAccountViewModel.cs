@@ -7,9 +7,9 @@ namespace Fero.Data.ViewModels
     {
         public CreateModelAccountViewModel()
         {
-            BodyPart = new HashSet<CreateAccountBodyPartViewModel>();
-            ModelStyle = new HashSet<CreateAccountModelStyleViewModel>();
-            Product = new HashSet<CreateAccountProductViewModel>();
+            //BodyPart = new HashSet<CreateAccountBodyPartViewModel>();
+            //ModelStyle = new HashSet<CreateAccountModelStyleViewModel>();
+            //Product = new HashSet<CreateAccountProductViewModel>();
         }
         public string Name { get; set; }
         public byte Gender { get; set; }
@@ -18,11 +18,10 @@ namespace Fero.Data.ViewModels
         public string Phone { get; set; }
         public string Username { get; set; }
         public string Gifted { get; set; }
-        public string Password { get; set; }
         public string Avatar { get; set; }
-        public virtual ICollection<CreateAccountBodyPartViewModel> BodyPart { get; set; }
-        public virtual ICollection<CreateAccountModelStyleViewModel> ModelStyle { get; set; }
-        public virtual ICollection<CreateAccountProductViewModel> Product { get; set; }
+        //public virtual ICollection<CreateAccountBodyPartViewModel> BodyPart { get; set; }
+        //public virtual ICollection<CreateAccountModelStyleViewModel> ModelStyle { get; set; }
+        //public virtual ICollection<CreateAccountProductViewModel> Product { get; set; }
     }
 
     public class CreateAccountBodyPartViewModel

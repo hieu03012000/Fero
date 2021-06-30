@@ -18,7 +18,7 @@ namespace Fero.Data.ViewModels
         public string SubAddress { get; set; }
         public string Phone { get; set; }
         public string Gifted { get; set; }
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
         public virtual ICollection<ModelDetailModelStyleViewModel> ModelStyle { get; set; }
     }
 }

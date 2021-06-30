@@ -23,7 +23,7 @@ namespace Fero.Data.Services
         Task<AddImageViewModel> AddImage(string modelId, AddImageViewModel addImageViewModel);
         Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId);
         Task<IQueryable<GetAllModelViewModel>> GetAllModel();
-        Task<bool> ChangeStatus(string modelId);
+        Task<int?> ChangeStatus(string modelId, int status);
         Task<bool> UpdateAvatar(UpdateAvatarViewModel viewModel);
         Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId);
         Task<AfterLoginViewModel> GetModelTaskByMail(string mail);
@@ -80,7 +80,7 @@ namespace Fero.Data.Services
 
         public async Task<ModelDetailViewModel> GetModelById(string modelId)
         {
-            var model = await Get(x => x.Id == modelId && x.Status)
+            var model = await Get(x => x.Id == modelId)
                 .ProjectTo<ModelDetailViewModel>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
             if (model == null)
                 throw new ErrorResponse((int)HttpStatusCode.NotFound, "Not found");
@@ -145,12 +145,12 @@ namespace Fero.Data.Services
             return image;
         }
 
-        public async Task<bool> ChangeStatus(string modelId)
+        public async Task<int?> ChangeStatus(string modelId, int status)
         {
             var model = await Get(i => i.Id == modelId).FirstOrDefaultAsync();
             if (model == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
-            model.Status = !model.Status;
+            model.Status = status;
             await UpdateAsync(model);
             return model.Status;
         }

@@ -74,15 +74,15 @@ namespace Fero.Controllers
         /// <summary>
         /// Update model status 
         /// </summary>
-        /// <param name="modelId"></param>
+        /// <param name="id"></param>
         /// <param name="status"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpPut("{id}/status")]
+        [HttpPut("{id}/status/{status}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateStatus(string id)
+        public async Task<IActionResult> UpdateStatus(string id, int status)
         {
-            return Ok(await _modelService.ChangeStatus(id));
+            return Ok(await _modelService.ChangeStatus(id, status));
         }
 
         /// <summary>
