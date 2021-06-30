@@ -1,25 +1,49 @@
-using Fero.Data.Models;
 using Fero.Data.Services;
+using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/body-attributes")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/body-attributes")]
     public partial class BodyAttributesController : ControllerBase
     {
         private readonly IBodyAttributeService _bodyAttributeService;
         public BodyAttributesController(IBodyAttributeService bodyAttributeService){
             _bodyAttributeService=bodyAttributeService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_bodyAttributeService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// get measure list
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [HttpGet("{modelId}/{type}")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetMeasure(string modelId, string type)
+        {
+            return Ok(await _bodyAttributeService.GetMeasure(modelId, type));
+        }
+        
+        /// <summary>
+        /// Update measure
+        /// </summary>
+        /// <param name="viewModels"></param>
+        /// <returns></returns>
+        [HttpPut("update")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> UpdateMeasure(ICollection<UpdateMeasureViewModel> viewModels)
+        {
+            return Ok(await _bodyAttributeService.UpdateMeasures(viewModels));
+        }
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
