@@ -21,15 +21,22 @@ namespace Fero.Controllers
             _staffService=staffService;
         }
 
-        
 
-        //[HttpGet("{id}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public IActionResult GetById(string id)
-        //{
-        //    return Ok(_staffService.Get(id));
-        //}
+        /// <summary>
+        /// get staff
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [HttpGet("{email}/{password}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> LoginStaff(string email, string password)
+        {
+            return Ok(await _staffService.LoginStaff(email, password));
+        }
+
+
         //[HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -178,7 +178,7 @@ namespace Fero.Data.Services
 
         public async Task<AfterLoginViewModel> GetModelTaskByMail(string mail)
         {
-            var model = await FirstOrDefaultAsyn(m => m.Username == mail);
+            var model = await FirstOrDefaultAsyn(m => m.Username == mail && m.Status != 2);
             if (model == null) return null;
             return _mapper.Map<AfterLoginViewModel>(model);
         }

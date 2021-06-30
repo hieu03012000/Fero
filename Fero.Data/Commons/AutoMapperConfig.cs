@@ -23,6 +23,7 @@ namespace Fero.Data.Commons
                 mc.ConfigSubscribeCastingModule();
                 mc.ConfigModelCastingModule();
                 mc.ConfigCustomerModule();
+                mc.ConfigStaffModule();
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
