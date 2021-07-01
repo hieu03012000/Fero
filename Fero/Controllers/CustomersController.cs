@@ -50,19 +50,7 @@ namespace Fero.Controllers
             return Ok(await _customerService.GetCasting(id));
         }
         
-        /// <summary>
-        /// Get casting by CusId
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [MapToApiVersion("1.0")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{customerId}/castings/{castingId}")]
-        public async Task<IActionResult> CastingDetail(string customerId,int castingId)
-        {
-            return Ok(await _castingService.ShowDetailCasting(customerId, castingId));
-        }
+        
 
         /// <summary>
         /// Update customer

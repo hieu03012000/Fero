@@ -18,4 +18,11 @@ namespace Fero.Data.ViewModels
         public decimal Salary { get; set; }
         public string CustomerName { get; set; }
     }
+
+    public class SearchValue
+    {
+        public string name { get; set; }
+        public decimal? min { get; set; }
+        public decimal? max { get; set; }
+    }
 }

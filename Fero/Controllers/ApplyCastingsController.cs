@@ -1,8 +1,10 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
+using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
@@ -15,12 +17,16 @@ namespace Fero.Controllers
         public ApplyCastingsController(IApplyCastingService applyCastingService){
             _applyCastingService=applyCastingService;
         }
-        //[MapToApiVersion("1.0")]
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_applyCastingService.Get().ToList());
-        //}
+
+        [MapToApiVersion("1.0")]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create(CreateApplyCastingViewModel entity)
+        {
+            return Ok(await _applyCastingService.ApplyCasting(entity));
+        }
+
         //[MapToApiVersion("1.0")]
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
@@ -29,15 +35,7 @@ namespace Fero.Controllers
         //{
         //    return Ok(_applyCastingService.Get(id));
         //}
-        //[MapToApiVersion("1.0")]
-        //[HttpPost]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public IActionResult Create(ApplyCasting entity)
-        //{
-        //    _applyCastingService.Create(entity);
-        //    return  CreatedAtAction(nameof(GetById), new { id = entity}, entity);
-        //}
+
         //[MapToApiVersion("1.0")]
         //[HttpPut("{id}")]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]

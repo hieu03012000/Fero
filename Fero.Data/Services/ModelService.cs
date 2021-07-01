@@ -64,7 +64,27 @@ namespace Fero.Data.Services
             if (await FirstOrDefaultAsyn(m => m.Username == model.Username) != null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Duplicate");
             var entity = _mapper.Map<Model>(model);
-            entity.Id = GetModelId();
+            string id = GetModelId();
+            entity.Id = id;
+            entity.ModelStyle.Add(new ModelStyle { ModelId = id, StyleId = 1 });
+
+            var fullBody = new BodyPart { BodyPartTypeId = 24, ModelId = id };
+            fullBody.BodyAttribute.Add(new BodyAttribute { BodyAttTypeId = 1, Value = 0 });
+            fullBody.BodyAttribute.Add(new BodyAttribute { BodyAttTypeId = 2, Value = 0 });
+
+            var bust = new BodyPart { BodyPartTypeId = 9, ModelId = id };
+            bust.BodyAttribute.Add(new BodyAttribute { BodyAttTypeId = 5, Value = 0 });
+
+            var waist = new BodyPart { BodyPartTypeId = 21, ModelId = id };
+            waist.BodyAttribute.Add(new BodyAttribute { BodyAttTypeId = 5, Value = 0 });
+
+            var hip = new BodyPart { BodyPartTypeId = 8, ModelId = id };
+            hip.BodyAttribute.Add(new BodyAttribute { BodyAttTypeId = 5, Value = 0 });
+
+            entity.BodyPart.Add(fullBody);
+            entity.BodyPart.Add(bust);
+            entity.BodyPart.Add(waist);
+            entity.BodyPart.Add(hip);
 
             await CreateAsyn(entity);
             return model;
