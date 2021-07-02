@@ -13,6 +13,7 @@ namespace Fero.Data.Services
     public partial interface IApplyCastingService:IBaseService<ApplyCasting>
     {
         Task<CreateApplyCastingViewModel> ApplyCasting(CreateApplyCastingViewModel aplly);
+        Task<bool> CheckApplyCasting(string modelId, int castingId);
     }
     public partial class ApplyCastingService:BaseService<ApplyCasting>,IApplyCastingService
     {
@@ -29,6 +30,13 @@ namespace Fero.Data.Services
                  throw new ErrorResponse((int)HttpStatusCode.NotFound, "Existed");
             await CreateAsyn(_mapper.Map<ApplyCasting>(aplly));
             return aplly;
+        }
+
+        public async Task<bool> CheckApplyCasting(string modelId, int castingId)
+        {
+            if ((await FirstOrDefaultAsyn(a => a.CastingId == castingId && a.ModelId == modelId)) == null)
+                return false;
+            return true;
         }
     }
 }

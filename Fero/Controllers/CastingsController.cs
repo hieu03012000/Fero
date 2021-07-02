@@ -45,9 +45,7 @@ namespace Fero.Controllers
         /// <summary>
         /// search casting
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("search")]

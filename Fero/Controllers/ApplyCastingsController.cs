@@ -18,6 +18,11 @@ namespace Fero.Controllers
             _applyCastingService=applyCastingService;
         }
 
+        /// <summary>
+        /// model apply casting
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -25,6 +30,20 @@ namespace Fero.Controllers
         public async Task<IActionResult> Create(CreateApplyCastingViewModel entity)
         {
             return Ok(await _applyCastingService.ApplyCasting(entity));
+        }
+
+        /// <summary>
+        /// check is aplly casting
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("ckeck")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ckeckApplyCasting(string modelId, int castingId)
+        {
+            return Ok(await _applyCastingService.CheckApplyCasting(modelId, castingId));
         }
 
         //[MapToApiVersion("1.0")]
