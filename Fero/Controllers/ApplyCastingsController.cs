@@ -47,7 +47,7 @@ namespace Fero.Controllers
         }
 
         /// <summary>
-        /// 
+        /// cancel cassting
         /// </summary>
         /// <param name="modelId"></param>
         /// <param name="castingId"></param>

@@ -1,25 +1,60 @@
-using Fero.Data.Models;
 using Fero.Data.Services;
-using Microsoft.AspNetCore.Http;
+using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/tasks")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/tasks")]
     public partial class TasksController : ControllerBase
     {
         private readonly ITaskService _taskService;
         public TasksController(ITaskService taskService){
             _taskService=taskService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_taskService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// check time to create task
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="begin"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        [HttpGet("check")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> CheckTime(string modelId, DateTime begin, DateTime end)
+        {
+            return Ok(await _taskService.CheckValidTaskTime(modelId, begin,end));
+        }
+
+        /// <summary>
+        /// Create free time for model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("free-time")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> CreateFreeTime(CreateFreeTimeViewModel model)
+        {
+            return Ok(await _taskService.CreateFreeTime(model));
+        }
+        
+        /// <summary>
+        /// Create free time for model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("task")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> CreateTask(CreateTaskViewModel model)
+        {
+            return Ok(await _taskService.CreateTask(model));
+        }
+
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
