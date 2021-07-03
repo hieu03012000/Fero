@@ -53,7 +53,7 @@ namespace Fero.Controllers
         /// <param name="castingId"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("check")]
+        [HttpDelete("cancel")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteApplyCasting(string modelId, int castingId)
