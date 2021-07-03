@@ -38,12 +38,27 @@ namespace Fero.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpGet("ckeck")]
+        [HttpGet("check")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ckeckApplyCasting(string modelId, int castingId)
+        public async Task<IActionResult> CkeckApplyCasting(string modelId, int castingId)
         {
             return Ok(await _applyCastingService.CheckApplyCasting(modelId, castingId));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="castingId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("check")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteApplyCasting(string modelId, int castingId)
+        {
+            return Ok(await _applyCastingService.CancelApplyCasting(modelId, castingId));
         }
 
         //[MapToApiVersion("1.0")]

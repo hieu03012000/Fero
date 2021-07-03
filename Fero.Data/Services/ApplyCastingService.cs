@@ -14,6 +14,7 @@ namespace Fero.Data.Services
     {
         Task<CreateApplyCastingViewModel> ApplyCasting(CreateApplyCastingViewModel aplly);
         Task<bool> CheckApplyCasting(string modelId, int castingId);
+        Task<bool> CancelApplyCasting(string modelId, int castingId);
     }
     public partial class ApplyCastingService:BaseService<ApplyCasting>,IApplyCastingService
     {
@@ -36,6 +37,13 @@ namespace Fero.Data.Services
         {
             if ((await FirstOrDefaultAsyn(a => a.CastingId == castingId && a.ModelId == modelId)) == null)
                 return false;
+            return true;
+        }
+
+        public async Task<bool> CancelApplyCasting(string modelId, int castingId)
+        {
+            var apply = await FirstOrDefaultAsyn(a => a.CastingId == castingId && a.ModelId == modelId);
+            await DeleteAsync(apply);
             return true;
         }
     }
