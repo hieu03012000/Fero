@@ -37,14 +37,27 @@ namespace Fero.Data.Services
 
         public async Task<CreateFreeTimeViewModel> CreateFreeTime(CreateFreeTimeViewModel model)
         {
-            await CreateAsyn(_mapper.Map<models.Task>(model));
-            return model;
+            if (await CheckValidTaskTime(model.ModelId, model.StartAt, model.EndAt))
+            {
+                await CreateAsyn(_mapper.Map<models.Task>(model));
+                return model;
+            } else
+            {
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
+            }
         }
 
         public async Task<CreateTaskViewModel> CreateTask(CreateTaskViewModel model)
         {
-            await CreateAsyn(_mapper.Map<models.Task>(model));
-            return model;
+            if (await CheckValidTaskTime(model.ModelId, model.StartAt, model.EndAt))
+            {
+                await CreateAsyn(_mapper.Map<models.Task>(model));
+                return model;
+            }
+            else
+            {
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
+            }
         }
     }
 }
