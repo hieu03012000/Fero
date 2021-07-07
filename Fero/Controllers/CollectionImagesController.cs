@@ -4,22 +4,32 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/collection-images")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/collection-images")]
     public partial class CollectionImagesController : ControllerBase
     {
         private readonly ICollectionImageService _collectionImageService;
-        public CollectionImagesController(ICollectionImageService collectionImageService){
-            _collectionImageService=collectionImageService;
+        public CollectionImagesController(ICollectionImageService collectionImageService) {
+            _collectionImageService = collectionImageService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_collectionImageService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// Get collection by modelId
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [HttpGet("{modelId}")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetCollectByModelId(string modelId)
+        {
+            return Ok(await _collectionImageService.GetCollection(modelId));
+        }
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -4,17 +4,32 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/images")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/images")]
     public partial class ImagesController : ControllerBase
     {
         private readonly IImageService _imageService;
         public ImagesController(IImageService imageService){
             _imageService=imageService;
         }
+
+        /// <summary>
+        /// Get Image in collection
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns></returns>
+        [HttpGet("{collectionId}")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetImage(int collectionId)
+        {
+            return Ok(await _imageService.GetImage(collectionId));
+        }
+
         //[HttpGet]
         //public IActionResult Gets()
         //{

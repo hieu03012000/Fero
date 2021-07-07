@@ -137,21 +137,10 @@ namespace Fero.Data.Services
             return deleteImageViewModels;
         }
 
-        public async Task<AddImageViewModel> AddImage(string modelId, AddImageViewModel addImageViewModel)
+        public async Task<AddImageViewModel> AddImage(string modelId, int collectionId, AddImageViewModel addImageViewModel)
         {
-            var collectionId = await _collectionImageRepository.Get(m => m.BodyPart.ModelId == modelId && m.BodyPart.BodyPartTypeId == 24).FirstOrDefaultAsync();
-            if(collectionId == null)
-            {
-                var bodPartId = _bodyPartRepository.Get(b => b.ModelId == modelId && b.BodyPartTypeId == 24).FirstOrDefault();
-                var newCollection = new CollectionImage
-                {
-                    BodyPartId = bodPartId.Id,
-                    Name = modelId
-                };
-                await _collectionImageRepository.CreateAsyn(newCollection);
-            }
             var entity = _mapper.Map<Image>(addImageViewModel);
-            entity.CollectionId = collectionId.Id;
+            entity.CollectionId = collectionId;
             await _imageRepository.CreateAsyn(entity);
             return addImageViewModel;
         }

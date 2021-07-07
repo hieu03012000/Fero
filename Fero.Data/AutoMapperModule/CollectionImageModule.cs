@@ -16,6 +16,9 @@ namespace Fero.Data.AutoMapperModule
 
             mc.CreateMap<CollectionImage, ModelDetailCollectionImageViewModel>();
             mc.CreateMap<ModelDetailCollectionImageViewModel, CollectionImage>();
+
+            mc.CreateMap<CollectionImage, ImageCollectionViewModel>();
+            mc.CreateMap<ImageCollectionViewModel, CollectionImage>();
         }
     }
 }
