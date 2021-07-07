@@ -26,7 +26,8 @@ namespace Fero.Data.Services
         {
             if (await Get(c => c.CollectionId == collectionId).FirstOrDefaultAsync() == null)
                 return null;
-            var collectionList = Get(c => c.CollectionId == collectionId).ProjectTo<ModelImageViewModel>(_mapper.ConfigurationProvider);
+            var collectionList = Get(c => c.CollectionId == collectionId).OrderByDescending(m => m.UploadDate)
+                .ProjectTo<ModelImageViewModel>(_mapper.ConfigurationProvider);
             return collectionList;
         }
     }
