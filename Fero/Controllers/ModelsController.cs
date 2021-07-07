@@ -130,11 +130,11 @@ namespace Fero.Controllers
         /// <param name="entity"></param>
         /// <returns></returns>
         [MapToApiVersion("1.0")]
-        [HttpPost("{id}/image")]
+        [HttpPost("{id}/{collectionId}/image")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddImage(string id, AddImageViewModel entity)
+        public async Task<IActionResult> AddImage(string id, int collectionId, AddImageViewModel entity)
         {
-            return Ok(await _modelService.AddImage(id, entity));
+            return Ok(await _modelService.AddImage(id, collectionId, entity));
         }
         
         /// <summary>

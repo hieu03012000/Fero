@@ -20,7 +20,7 @@ namespace Fero.Data.Services
         Task<UpdateModelProfileViewModel> UpdateProfileModel(UpdateModelProfileViewModel model);
         Task<UpdateModelStyleViewModel> UpdateModelStyle(string id, UpdateModelStyleViewModel model);
         Task<DeleteImageViewModel> DeleteImage(string modelId, DeleteImageViewModel deleteImageViewModels);
-        Task<AddImageViewModel> AddImage(string modelId, AddImageViewModel addImageViewModel);
+        Task<AddImageViewModel> AddImage(string modelId, int collectionId, AddImageViewModel addImageViewModel);
         Task<IQueryable<ModelImageViewModel>> GetAllModelImage(string modelId);
         Task<IQueryable<GetAllModelViewModel>> GetAllModel();
         Task<int?> ChangeStatus(string modelId, int status);
