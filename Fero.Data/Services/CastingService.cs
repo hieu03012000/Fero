@@ -16,10 +16,10 @@ namespace Fero.Data.Services
     public partial interface ICastingService : IBaseService<Casting>
     {
         Task<GetCastingViewModel> ShowDetailCasting(int c);
-        Task<IQueryable<CastingListViewModel>> GetCastingList();
+        Task<IQueryable<GetCastingViewModel>> GetCastingList();
         Task<IQueryable<GetCastingViewModel>> SearchCasting(SearchValue value);
         Task<IQueryable<GetCastingViewModel>> GetCastingModelApply(string modelId);
-        Task<IQueryable<CastingListViewModel>> GetCastingListByIds(List<int> castingIds);
+        Task<IQueryable<GetCastingViewModel>> GetCastingListByIds(List<int> castingIds);
     }
     public partial class CastingService : BaseService<Casting>, ICastingService
     {
@@ -101,21 +101,21 @@ namespace Fero.Data.Services
             await CreateAsyn(casting);
         }
 
-        public async Task<IQueryable<CastingListViewModel>> GetCastingList()
+        public async Task<IQueryable<GetCastingViewModel>> GetCastingList()
         {
             if (await Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).FirstOrDefaultAsync() == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
             var list = Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3)
-                .ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
+                .ProjectTo<GetCastingViewModel>(_mapper.ConfigurationProvider);
             return list;
         }
 
-        public async Task<IQueryable<CastingListViewModel>> GetCastingListByIds(List<int> castingIds)
+        public async Task<IQueryable<GetCastingViewModel>> GetCastingListByIds(List<int> castingIds)
         {
             if (await Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).FirstOrDefaultAsync() == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
             var list = Get(x => (x.Status == 1 || x.Status == 2 || x.Status == 3) && castingIds.Contains(x.Id))
-                .ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
+                .ProjectTo<GetCastingViewModel>(_mapper.ConfigurationProvider);
             return list;
         }
 

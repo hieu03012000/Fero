@@ -44,7 +44,6 @@ namespace Fero.Data.Services
         {
             while (true)
             {
-                Console.WriteLine("a");
                 DateTime currentDateTime = DateTime.Now;
                 var incoming = _castingRepository
                     .Get(c => c.CloseTime < currentDateTime.AddDays(1) && c.CloseTime > currentDateTime)
@@ -75,8 +74,7 @@ namespace Fero.Data.Services
                     // Send a message to the devices subscribed to the provided topic.
                     string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
                 }
-                Thread.Sleep(5 * 60 * 1000);
-                Thread.Sleep(1000);
+                Thread.Sleep(12 * 60 * 60 * 1000);
             }
         }
     }
