@@ -4,6 +4,7 @@ using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,8 +16,10 @@ namespace Fero.Controllers
     public partial class CastingsController : ControllerBase
     {
         private readonly ICastingService _castingService;
-        public CastingsController(ICastingService castingService) {
+        private readonly IThreadService _threadService;
+        public CastingsController(ICastingService castingService, IThreadService threadService) {
             _castingService = castingService;
+            _threadService = threadService;
         }
 
         /// <summary>
@@ -29,6 +32,43 @@ namespace Fero.Controllers
         public async Task<IActionResult> GetCastingModelApply(string modelId)
         {
             return Ok(await _castingService.GetCastingModelApply(modelId));
+        }
+
+        /// <summary>
+        /// casting model apply
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("{modelId}/thread")]
+        public async Task<IActionResult> StartThread(string modelId)
+        {
+            return Ok(_threadService.CheckCasting(modelId));
+        }
+
+
+        /// <summary>
+        /// casting model apply
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("end-thread")]
+        public async Task<IActionResult> EndThread(string modelId)
+        {
+            return Ok(_threadService.EndThread());
+        }
+
+        /// <summary>
+        /// casting model apply
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpPost]
+        public async Task<IActionResult> GetCastingByIds(CastingListIds castingIds)
+        {
+            return Ok(await _castingService.GetCastingListByIds(castingIds.CastingIds));
         }
 
         /// <summary>

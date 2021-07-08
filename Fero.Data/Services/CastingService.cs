@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Fero.Data.ViewModels;
 using AutoMapper.QueryableExtensions;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Fero.Data.Services
 {
@@ -18,19 +19,22 @@ namespace Fero.Data.Services
         Task<IQueryable<CastingListViewModel>> GetCastingList();
         Task<IQueryable<GetCastingViewModel>> SearchCasting(SearchValue value);
         Task<IQueryable<GetCastingViewModel>> GetCastingModelApply(string modelId);
+        Task<IQueryable<CastingListViewModel>> GetCastingListByIds(List<int> castingIds);
     }
     public partial class CastingService : BaseService<Casting>, ICastingService
     {
         private readonly IMapper _mapper;
-        private readonly ICastingRepository _castingRepository;
         private readonly ITaskRepository _taskRepository;
         private readonly IApplyCastingRepository _applyCastingRepository;
+        private readonly IThreadService _threadService;
 
-        public CastingService(ICastingRepository castingRepository, 
+        public CastingService(ICastingRepository castingRepository,
             ITaskRepository taskRepository, IApplyCastingRepository applyCastingRepository,
+            IThreadService threadService,
             IMapper mapper) : base(castingRepository)
         {
             _mapper = mapper;
+            _threadService = threadService;
             _taskRepository = taskRepository;
             _applyCastingRepository = applyCastingRepository;
         }
@@ -102,6 +106,15 @@ namespace Fero.Data.Services
             if (await Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).FirstOrDefaultAsync() == null)
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
             var list = Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3)
+                .ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
+            return list;
+        }
+
+        public async Task<IQueryable<CastingListViewModel>> GetCastingListByIds(List<int> castingIds)
+        {
+            if (await Get(x => x.Status == 1 || x.Status == 2 || x.Status == 3).FirstOrDefaultAsync() == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
+            var list = Get(x => (x.Status == 1 || x.Status == 2 || x.Status == 3) && castingIds.Contains(x.Id))
                 .ProjectTo<CastingListViewModel>(_mapper.ConfigurationProvider);
             return list;
         }
