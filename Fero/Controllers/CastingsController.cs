@@ -81,6 +81,18 @@ namespace Fero.Controllers
         {
             return Ok(await _castingService.GetCastingList());
         }
+        
+        /// <summary>
+        /// incoming casting 
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpGet("{modelId}/incoming")]
+        public async Task<IActionResult> Gets(string modelId)
+        {
+            return Ok(await _castingService.GetCastingHaveTask(modelId));
+        }
 
         /// <summary>
         /// search casting

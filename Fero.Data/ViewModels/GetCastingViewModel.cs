@@ -17,6 +17,7 @@ namespace Fero.Data.ViewModels
         public int? BrandId { get; set; }
         public decimal Salary { get; set; }
         public string CustomerName { get; set; }
+        public DateTime IncomingTask { get; set; }
     }
 
     public class SearchValue

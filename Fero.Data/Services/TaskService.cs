@@ -9,6 +9,7 @@ using Reso.Core.Custom;
 using System.Net;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
 
 namespace Fero.Data.Services
 {
@@ -17,6 +18,7 @@ namespace Fero.Data.Services
         Task<bool> CheckValidTaskTime(string modelId, DateTime begin, DateTime end);
         Task<CreateFreeTimeViewModel> CreateFreeTime(CreateFreeTimeViewModel model);
         Task<CreateTaskViewModel> CreateTask(CreateTaskViewModel model);
+        Task<IQueryable<ModelScheduleViewModel>> IncomingTaskByCasting(int castingId, string modelId);
     }
     public partial class TaskService:BaseService<models.Task>,ITaskService
     {
@@ -41,10 +43,9 @@ namespace Fero.Data.Services
             {
                 await CreateAsyn(_mapper.Map<models.Task>(model));
                 return model;
-            } else
-            {
-                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
             }
+            throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
+            
         }
 
         public async Task<CreateTaskViewModel> CreateTask(CreateTaskViewModel model)
@@ -54,10 +55,20 @@ namespace Fero.Data.Services
                 await CreateAsyn(_mapper.Map<models.Task>(model));
                 return model;
             }
-            else
-            {
-                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
-            }
+            else throw new ErrorResponse((int)HttpStatusCode.BadRequest, "cannot create");
+            
+        }
+
+        public async Task<IQueryable<ModelScheduleViewModel>> IncomingTaskByCasting(int castingId, string modelId)
+        {
+            var model = await Get(i => i.CastingId == castingId && i.ModelId == modelId && i.StartAt > DateTime.Now)
+                .FirstOrDefaultAsync();
+            if (model == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not found");
+            var taskList = Get(i => i.CastingId == castingId && i.ModelId == modelId && i.StartAt > DateTime.Now)
+                .OrderByDescending(i => i.StartAt)
+                .ProjectTo<ModelScheduleViewModel>(_mapper.ConfigurationProvider);
+            return taskList;
         }
     }
 }

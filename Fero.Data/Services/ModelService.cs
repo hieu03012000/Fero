@@ -174,7 +174,6 @@ namespace Fero.Data.Services
             return true;
         }
 
-
         public async Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId)
         {
             var model = await _taskRepository.Get(i => i.ModelId == modelId).FirstOrDefaultAsync();
@@ -184,7 +183,7 @@ namespace Fero.Data.Services
                 .ProjectTo<ModelScheduleViewModel>(_mapper.ConfigurationProvider);
             return taskList;
         }
-
+        
         public async Task<AfterLoginViewModel> GetModelTaskByMail(string mail)
         {
             var model = await FirstOrDefaultAsyn(m => m.Username == mail && m.Status != 2);

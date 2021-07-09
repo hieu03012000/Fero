@@ -10,6 +10,7 @@ using Fero.Data.ViewModels;
 using AutoMapper.QueryableExtensions;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Fero.Data.Services
 {
@@ -20,6 +21,7 @@ namespace Fero.Data.Services
         Task<IQueryable<GetCastingViewModel>> SearchCasting(SearchValue value);
         Task<IQueryable<GetCastingViewModel>> GetCastingModelApply(string modelId);
         Task<IQueryable<GetCastingViewModel>> GetCastingListByIds(List<int> castingIds);
+        Task<List<GetCastingViewModel>> GetCastingHaveTask(string modelId);
     }
     public partial class CastingService : BaseService<Casting>, ICastingService
     {
@@ -125,6 +127,29 @@ namespace Fero.Data.Services
                 throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
             var casitingIds = _applyCastingRepository.Get(a => a.ModelId == modelId).Select(a => a.CastingId);
             var castingList = Get(c => casitingIds.Contains(c.Id)).ProjectTo<GetCastingViewModel>(_mapper.ConfigurationProvider);
+            return castingList;
+        }
+
+        private async Task<DateTime> IncomingTask(int castingId, string modelId)
+        {
+            var time = (await _taskRepository.Get(t => t.StartAt > DateTime.Now && t.ModelId == modelId && t.CastingId == castingId)
+                .OrderBy(t => t.StartAt).FirstOrDefaultAsync()).StartAt;
+            return time;
+        } 
+
+        public async Task<List<GetCastingViewModel>> GetCastingHaveTask(string modelId)
+        {
+            if ((await FirstOrDefaultAsyn()) == null)
+                throw new ErrorResponse((int)HttpStatusCode.BadRequest, "Not have catsing");
+            var incomingTask = _taskRepository.Get(t => t.StartAt > DateTime.Now && t.ModelId == modelId)
+                .Select(t => t.CastingId);
+            var castingList = Get(c => incomingTask.Contains(c.Id)).ProjectTo<GetCastingViewModel>(_mapper.ConfigurationProvider).ToList();
+            for(int i = 0; i < castingList.Count() ; i++)
+            {
+                var incomingTime = await IncomingTask(castingList.ElementAt(i).Id , modelId);
+                castingList.ElementAt(i).IncomingTask = incomingTime;
+            }
+           castingList = castingList.OrderBy(c => c.IncomingTask).ToList();
             return castingList;
         }
     }
