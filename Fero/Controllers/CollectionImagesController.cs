@@ -1,5 +1,6 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
+using Fero.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,18 @@ namespace Fero.Controllers
         public async Task<IActionResult> GetCollectByModelId(string modelId)
         {
             return Ok(await _collectionImageService.GetCollection(modelId));
+        }
+        
+        /// <summary>
+        /// Get collection by modelId
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [HttpPut("{modelId}/gif")]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> AddGif(string modelId, AddGifViewModel gif)
+        {
+            return Ok(await _collectionImageService.AddGif(modelId, gif));
         }
 
         //[HttpGet("{id}")]

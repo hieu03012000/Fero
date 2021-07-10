@@ -48,7 +48,7 @@ namespace Fero.Data.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=Fero; User Id=sa; Password=123; MultipleActiveResultSets = True;");
+                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=Fero; User Id=sa; Password=123;");
             }
         }
 
@@ -181,6 +181,11 @@ namespace Fero.Data.Models
 
             modelBuilder.Entity<CollectionImage>(entity =>
             {
+                entity.Property(e => e.Gif)
+                    .HasColumnName("gif")
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.HasOne(d => d.BodyPart)
@@ -402,6 +407,8 @@ namespace Fero.Data.Models
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.Password).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Style>(entity =>

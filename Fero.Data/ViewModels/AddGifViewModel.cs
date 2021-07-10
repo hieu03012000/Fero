@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Fero.Data.ViewModels
 {
-    public class ImageCollectionViewModel
+    public class AddGifViewModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int CollectionId { get; set; }
         public string Gif { get; set; }
     }
 }
