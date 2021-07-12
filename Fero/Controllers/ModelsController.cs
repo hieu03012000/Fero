@@ -1,5 +1,6 @@
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -164,7 +165,23 @@ namespace Fero.Controllers
         {
             return Ok(await _modelService.GetModelTask(id));
         }
-        
+
+        /// <summary>
+        /// Get task
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [MapToApiVersion("1.0")]
+        [HttpPost("check-token")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CheckToken(TokenViewModel token)
+        {
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance
+                .VerifyIdTokenAsync(token.token);
+            string uid = decodedToken.Uid;
+            return Ok(uid);
+        }
+
         /// <summary>
         /// get model by mail
         /// </summary>
