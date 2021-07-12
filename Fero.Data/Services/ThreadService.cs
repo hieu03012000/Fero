@@ -12,8 +12,6 @@ namespace Fero.Data.Services
 {
     public partial interface IThreadService
     {
-        Task ThreadInCasting(string modelId);
-        int EndThread();
         Task CheckCasting(string modelId);
     }
     public partial class ThreadService : IThreadService
@@ -25,19 +23,6 @@ namespace Fero.Data.Services
         {
             _castingRepository = castingRepository;
             _mapper = mapper;
-        }
-
-        public async Task ThreadInCasting(string modelId)
-        {
-            thread = new Thread( async () => await CheckCasting(modelId));
-            thread.Start();
-        }
-
-        public int EndThread()  
-        {
-            CancellationTokenSource cts = new CancellationTokenSource();
-            Thread.CurrentThread.Abort();
-            return 0;
         }
 
         public async Task CheckCasting(string modelId)
@@ -74,7 +59,7 @@ namespace Fero.Data.Services
                     // Send a message to the devices subscribed to the provided topic.
                     string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
                 }
-                Thread.Sleep(12 * 60 * 60 * 1000);
+                Thread.Sleep(5 * 60 * 1000);
             }
         }
     }

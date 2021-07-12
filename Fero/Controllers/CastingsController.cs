@@ -46,19 +46,6 @@ namespace Fero.Controllers
             return Ok(_threadService.CheckCasting(modelId));
         }
 
-
-        /// <summary>
-        /// casting model apply
-        /// </summary>
-        /// <param name="modelId"></param>
-        /// <returns></returns>
-        [MapToApiVersion("1.0")]
-        [HttpGet("end-thread")]
-        public async Task<IActionResult> EndThread(string modelId)
-        {
-            return Ok(_threadService.EndThread());
-        }
-
         /// <summary>
         /// casting model apply
         /// </summary>
