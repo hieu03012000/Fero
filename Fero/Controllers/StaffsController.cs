@@ -1,4 +1,4 @@
-using Fero.Data.Models;
+using Fero.Data.ViewModels;
 using Fero.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +28,12 @@ namespace Fero.Controllers
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpGet("{email}/{password}")]
+        [HttpPost("profile")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> LoginStaff(string email, string password)
+        public async Task<IActionResult> LoginStaff(StaffLoginViewModel viewModel)
         {
-            return Ok(await _staffService.LoginStaff(email, password));
+            return Ok(await _staffService.LoginStaff(viewModel.Email, viewModel.Password));
         }
 
 

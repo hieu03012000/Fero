@@ -11,8 +11,8 @@ namespace Fero.Data.AutoMapperModule
     {
         public static void ConfigStaffModule(this IMapperConfigurationExpression mc)
         {
-            mc.CreateMap<Staff, StaffLoginViewModel>();
-            mc.CreateMap<StaffLoginViewModel, Staff>();
+            mc.CreateMap<Staff, StaffViewModel>();
+            mc.CreateMap<StaffViewModel, Staff>();
 
         }
     }
