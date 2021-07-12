@@ -33,10 +33,7 @@ namespace Fero
             {
                 Credential = GoogleCredential.FromFile("fero-images-store-firebase-adminsdk-idvt3-9e7e588fa6.json"),
             });
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod());
-            });
+            services.AddCors();
             services.AddMvc();
             services.AddApiVersioning(options =>
             {
@@ -114,7 +111,6 @@ namespace Fero
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -130,6 +126,10 @@ namespace Fero
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(
+                options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+            );
 
             app.UseAuthentication();
             app.UseAuthorization();
