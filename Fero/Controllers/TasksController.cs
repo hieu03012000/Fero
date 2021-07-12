@@ -1,5 +1,6 @@
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpPost("free-time")]
         [MapToApiVersion("1.0")]
+        [Authorize]
         public async Task<IActionResult> CreateFreeTime(CreateFreeTimeViewModel model)
         {
             return Ok(await _taskService.CreateFreeTime(model));
@@ -61,6 +63,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpGet("{modelId}/{castingId}/task")]
         [MapToApiVersion("1.0")]
+        [Authorize]
         public async Task<IActionResult> GetTaskByCasting(string modelId,int castingId)
         {
             return Ok(await _taskService.IncomingTaskByCasting(castingId, modelId));

@@ -1,5 +1,6 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpGet("{collectionId}")]
         [MapToApiVersion("1.0")]
+        [Authorize]
         public async Task<IActionResult> GetImage(int collectionId)
         {
             return Ok(await _imageService.GetImage(collectionId));

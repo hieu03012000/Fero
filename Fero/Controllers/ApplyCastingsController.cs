@@ -1,6 +1,7 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(CreateApplyCastingViewModel entity)
@@ -39,6 +41,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("check")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CkeckApplyCasting(string modelId, int castingId)
@@ -54,6 +57,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpDelete("cancel")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteApplyCasting(string modelId, int castingId)

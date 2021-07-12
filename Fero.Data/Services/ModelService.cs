@@ -10,6 +10,12 @@ using Reso.Core.Custom;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System;
+using Fero.Data.Commons;
 
 namespace Fero.Data.Services
 {
@@ -27,6 +33,7 @@ namespace Fero.Data.Services
         Task<bool> UpdateAvatar(UpdateAvatarViewModel viewModel);
         Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId);
         Task<AfterLoginViewModel> GetModelTaskByMail(string mail);
+        Task<TokenViewModel> GenerateJWTToken(string mail);
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
@@ -189,6 +196,32 @@ namespace Fero.Data.Services
             var model = await FirstOrDefaultAsyn(m => m.Username == mail && m.Status != 2);
             if (model == null) return null;
             return _mapper.Map<AfterLoginViewModel>(model);
+        }
+
+        public async Task<TokenViewModel> GenerateJWTToken(string mail)
+        {
+            var model =  await GetModelTaskByMail(mail);
+            var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, mail),
+                    new Claim(ClaimTypes.Role, "model"),
+                    new Claim("ModelId", model.Id),
+                    new Claim("Status", model.Status.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constant.SECRECT_KEY));
+            var token = new JwtSecurityToken(
+                issuer: Constant.ISSUE_KEY,
+                audience: Constant.ISSUE_KEY,
+                expires: DateTime.Now.AddHours(2),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
+                );
+            return new TokenViewModel
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Mail = ""
+            };
         }
     }
 }

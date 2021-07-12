@@ -25,6 +25,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpGet]
         [MapToApiVersion("1.0")]
+        
         public async Task<IActionResult> Gets()
         {
             return Ok(await _modelService.GetAllModel());
@@ -37,6 +38,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(string id)
@@ -51,6 +53,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{id}/images")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetModelImage(string id)
@@ -93,6 +96,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/profile")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update([FromBody]UpdateModelProfileViewModel entity)
         {
@@ -119,6 +123,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/image")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteImage(string id, DeleteImageViewModel entity)
         {
@@ -132,6 +137,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost("{id}/{collectionId}/image")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddImage(string id, int collectionId, AddImageViewModel entity)
         {
@@ -146,6 +152,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPut("{id}/avatar")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAvatar(string id, UpdateAvatarViewModel entity)
         {
@@ -160,6 +167,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{id}/tasks")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetTask(string id)
         {
@@ -176,10 +184,8 @@ namespace Fero.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CheckToken(TokenViewModel token)
         {
-            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance
-                .VerifyIdTokenAsync(token.token);
-            string uid = decodedToken.Uid;
-            return Ok(uid);
+            await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token.Token);
+            return Ok(await _modelService.GenerateJWTToken(token.Mail));
         }
 
         /// <summary>

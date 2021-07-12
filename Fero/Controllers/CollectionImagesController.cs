@@ -1,6 +1,7 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpGet("{modelId}")]
         [MapToApiVersion("1.0")]
+        [Authorize]
         public async Task<IActionResult> GetCollectByModelId(string modelId)
         {
             return Ok(await _collectionImageService.GetCollection(modelId));
@@ -38,6 +40,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [HttpPut("{modelId}/gif")]
         [MapToApiVersion("1.0")]
+        [Authorize]
         public async Task<IActionResult> AddGif(string modelId, AddGifViewModel gif)
         {
             return Ok(await _collectionImageService.AddGif(modelId, gif));

@@ -1,6 +1,7 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{modelId}/apply")]
+        [Authorize]
         public async Task<IActionResult> GetCastingModelApply(string modelId)
         {
             return Ok(await _castingService.GetCastingModelApply(modelId));
@@ -53,6 +55,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> GetCastingByIds(CastingListIds castingIds)
         {
             return Ok(await _castingService.GetCastingListByIds(castingIds.CastingIds));
@@ -64,6 +67,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _castingService.GetCastingList());
@@ -76,6 +80,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{modelId}/incoming")]
+        [Authorize]
         public async Task<IActionResult> Gets(string modelId)
         {
             return Ok(await _castingService.GetCastingHaveTask(modelId));
@@ -88,6 +93,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("search")]
+        [Authorize]
         public async Task<IActionResult> SearchCasting([FromQuery]SearchValue value)
         {
             return Ok(await _castingService.SearchCasting(value));
@@ -102,6 +108,7 @@ namespace Fero.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> CastingDetail(int id)
         {
             return Ok(await _castingService.ShowDetailCasting(id));

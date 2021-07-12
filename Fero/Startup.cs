@@ -33,6 +33,19 @@ namespace Fero
             {
                 Credential = GoogleCredential.FromFile("fero-images-store-firebase-adminsdk-idvt3-9e7e588fa6.json"),
             });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Constant.ISSUE_KEY,
+                    ValidAudience = Constant.ISSUE_KEY,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes( Constant.SECRECT_KEY))
+                };
+            });
             services.AddCors();
             services.AddMvc();
             services.AddApiVersioning(options =>
