@@ -14,21 +14,53 @@ namespace Fero.Data.Services
     {
         Task<IQueryable<ImageCollectionViewModel>> GetCollection(string modelId);
         Task<AddGifViewModel> AddGif(string modelId, AddGifViewModel gif);
+        Task<CreateImageCollectionViewModel> CreateCollection(CreateImageCollectionViewModel model, string modelId);
+        Task<int?> DeleteCollection(int collectionId);
     }
     public partial class CollectionImageService:BaseService<CollectionImage>,ICollectionImageService
     {
         IMapper _mapper;
-        public CollectionImageService(ICollectionImageRepository repository, IMapper mapper):base(repository)
+        IBodyPartRepository _bodyPartRepository;
+        public CollectionImageService(ICollectionImageRepository repository, 
+            IBodyPartRepository bodyPartRepository,
+            IMapper mapper):base(repository)
         {
+            _bodyPartRepository = bodyPartRepository;
             _mapper = mapper;
         }
 
         public async Task<IQueryable<ImageCollectionViewModel>> GetCollection(string modelId)
         {
-            if (await Get(c => c.BodyPart.ModelId == modelId).FirstOrDefaultAsync() == null)
+            if (await Get(c => c.BodyPart.ModelId == modelId && c.Status == true).FirstOrDefaultAsync() == null)
                 return null;
-            var collectionList = Get(c => c.BodyPart.ModelId == modelId).ProjectTo<ImageCollectionViewModel>(_mapper.ConfigurationProvider);
+            var collectionList = Get(c => c.BodyPart.ModelId == modelId && c.Status == true).ProjectTo<ImageCollectionViewModel>(_mapper.ConfigurationProvider);
             return collectionList;
+        }
+
+        public async Task<CreateImageCollectionViewModel> CreateCollection(CreateImageCollectionViewModel model, string modelId)
+        {
+            var body = await _bodyPartRepository.Get().FirstOrDefaultAsync(b => b.ModelId == modelId);
+            if (body == null)
+            {
+                await _bodyPartRepository.CreateAsyn(new BodyPart { BodyPartTypeId = 24, ModelId = modelId });
+                body = await _bodyPartRepository.Get().FirstOrDefaultAsync(b => b.ModelId == modelId);
+            }
+            var collection = _mapper.Map<CollectionImage>(model);
+            collection.BodyPartId = body.Id;
+            await CreateAsyn(collection);
+            return model;
+        }
+
+        public async Task<int?> DeleteCollection(int collectionId)
+        {
+            var collectionImage = await Get().FirstOrDefaultAsync(b => b.Id == collectionId);
+            if (collectionImage == null)
+            {
+                return null;
+            }
+            collectionImage.Status = false;
+            await UpdateAsync(collectionImage);
+            return collectionId;
         }
 
         public async Task<AddGifViewModel> AddGif(string modelId, AddGifViewModel gif)

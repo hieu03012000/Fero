@@ -10,4 +10,9 @@ namespace Fero.Data.ViewModels
         public string Name { get; set; }
         public string Gif { get; set; }
     }
+
+    public class CreateImageCollectionViewModel
+    {
+        public string Name { get; set; }
+    }
 }

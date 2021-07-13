@@ -45,6 +45,34 @@ namespace Fero.Controllers
         {
             return Ok(await _collectionImageService.AddGif(modelId, gif));
         }
+        
+        /// <summary>
+        /// Create collection
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("{modelId}")]
+        [MapToApiVersion("1.0")]
+        //[Authorize]
+        public async Task<IActionResult> CreateCollection(string modelId, CreateImageCollectionViewModel model)
+        {
+            return Ok(await _collectionImageService.CreateCollection(model, modelId));
+        }
+
+        /// <summary>
+        /// Delete collection
+        /// </summary>
+        /// <param name="collecttionId"></param>
+        /// <returns></returns>
+        [HttpDelete("{collecttionId}")]
+        [MapToApiVersion("1.0")]
+        //[Authorize]
+        public async Task<IActionResult> CreateCollection(int collecttionId)
+        {
+            return Ok(await _collectionImageService.DeleteCollection(collecttionId));
+        }
+
 
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
