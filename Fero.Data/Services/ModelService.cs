@@ -261,7 +261,7 @@ namespace Fero.Data.Services
                 {
                     { "castingId", listId },
                 },
-                Condition = "!('anytopicyoudontwanttouse' in topics)"
+                Condition = "'all' in topics"
             };
             await FirebaseAdmin.Messaging.FirebaseMessaging.DefaultInstance.SendAsync(message);
         }
