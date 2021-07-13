@@ -232,8 +232,8 @@ namespace Fero.Data.Services
         {
             var current = DateTime.Now;
             var next = current.AddMinutes(5);
-            var incoming = await _castingRepository.Get()
-                    //.Get(c => c.CloseTime < current.AddMinutes(5) && c.CloseTime > current && c.Status == 1)
+            var incoming = await _castingRepository
+                    .Get(c => c.CloseTime < current.AddMinutes(5) && c.CloseTime > current && c.Status == 1)
                     .Select(c => c.Id).ToListAsync();
             if(incoming != null && incoming.Count() != 0)
             {
