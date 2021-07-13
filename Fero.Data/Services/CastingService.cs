@@ -28,15 +28,12 @@ namespace Fero.Data.Services
         private readonly IMapper _mapper;
         private readonly ITaskRepository _taskRepository;
         private readonly IApplyCastingRepository _applyCastingRepository;
-        private readonly IThreadService _threadService;
 
         public CastingService(ICastingRepository castingRepository,
             ITaskRepository taskRepository, IApplyCastingRepository applyCastingRepository,
-            IThreadService threadService,
             IMapper mapper) : base(castingRepository)
         {
             _mapper = mapper;
-            _threadService = threadService;
             _taskRepository = taskRepository;
             _applyCastingRepository = applyCastingRepository;
         }

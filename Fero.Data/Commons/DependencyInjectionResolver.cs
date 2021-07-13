@@ -93,7 +93,6 @@ namespace Fero.Data.Commons
             services.AddScoped<ITattooTypeService, TattooTypeService>();
             services.AddScoped<ITattooTypeRepository, TattooTypeRepository>();
 
-            services.AddScoped<IThreadService, ThreadService>();
             //services.AddScoped<ITattooTypeRepository, TattooTypeRepository>();
         }
     }

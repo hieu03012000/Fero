@@ -17,10 +17,9 @@ namespace Fero.Controllers
     public partial class CastingsController : ControllerBase
     {
         private readonly ICastingService _castingService;
-        private readonly IThreadService _threadService;
-        public CastingsController(ICastingService castingService, IThreadService threadService) {
+        //private readonly IThreadService _threadService;
+        public CastingsController(ICastingService castingService) {
             _castingService = castingService;
-            _threadService = threadService;
         }
 
         /// <summary>
@@ -36,17 +35,17 @@ namespace Fero.Controllers
             return Ok(await _castingService.GetCastingModelApply(modelId));
         }
 
-        /// <summary>
-        /// casting model apply
-        /// </summary>
-        /// <param name="modelId"></param>
-        /// <returns></returns>
-        [MapToApiVersion("1.0")]
-        [HttpGet("{modelId}/thread")]
-        public async Task<IActionResult> StartThread(string modelId)
-        {
-            return Ok(_threadService.CheckCasting(modelId));
-        }
+        ///// <summary>
+        ///// casting model apply
+        ///// </summary>
+        ///// <param name="modelId"></param>
+        ///// <returns></returns>
+        //[MapToApiVersion("1.0")]
+        //[HttpGet("{modelId}/thread")]
+        //public async Task<IActionResult> StartThread(string modelId)
+        //{
+        //    return Ok(_threadService.CheckCasting(modelId));
+        //}
 
         /// <summary>
         /// casting model apply

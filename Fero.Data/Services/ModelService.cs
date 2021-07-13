@@ -34,6 +34,7 @@ namespace Fero.Data.Services
         Task<IQueryable<ModelScheduleViewModel>> GetModelTask(string modelId);
         Task<AfterLoginViewModel> GetModelTaskByMail(string mail);
         Task<TokenViewModel> GenerateJWTToken(string mail);
+        System.Threading.Tasks.Task ScanCasting();
     }
     public partial class ModelService : BaseService<Model>, IModelService
     {
@@ -43,11 +44,13 @@ namespace Fero.Data.Services
         private readonly ICollectionImageRepository _collectionImageRepository;
         private readonly IBodyPartRepository _bodyPartRepository;
         private readonly ITaskRepository _taskRepository;
+        private readonly ICastingRepository _castingRepository;
 
         public ModelService(IModelRepository modelRepository, IMapper mapper,
             IModelStyleRepository modelStyleRepository,
             ICollectionImageRepository collectionImageRepository,
             IBodyPartRepository bodyPartRepository,
+            ICastingRepository castingRepository,
             ITaskRepository taskRepository,
             IImageRepository imageRepository) : base(modelRepository)
         {
@@ -55,6 +58,7 @@ namespace Fero.Data.Services
             _modelStyleRepository = modelStyleRepository;
             _collectionImageRepository = collectionImageRepository;
             _bodyPartRepository = bodyPartRepository;
+            _castingRepository = castingRepository;
             _taskRepository = taskRepository;
             _imageRepository = imageRepository;
         }
@@ -213,7 +217,7 @@ namespace Fero.Data.Services
             var token = new JwtSecurityToken(
                 issuer: Constant.ISSUE_KEY,
                 audience: Constant.ISSUE_KEY,
-                expires: DateTime.Now.AddHours(2),
+                expires: DateTime.Now.AddDays(30),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
                 );
@@ -222,6 +226,44 @@ namespace Fero.Data.Services
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Mail = ""
             };
+        }
+
+        public async System.Threading.Tasks.Task ScanCasting()
+        {
+            var current = DateTime.Now;
+            var next = current.AddMinutes(5);
+            var incoming = await _castingRepository.Get()
+                    //.Get(c => c.CloseTime < current.AddMinutes(5) && c.CloseTime > current && c.Status == 1)
+                    .Select(c => c.Id).ToListAsync();
+            if(incoming != null && incoming.Count() != 0)
+            {
+                string listId = "";
+                foreach (var casting in incoming)
+                {
+                    listId += casting.ToString() + ",";
+                }
+                string title = "News From Fero";
+                string body = "Some casting will close in 5 minutes" + " Don't miss out!";
+                await SendNotification(title, body, listId);
+            }
+        }
+
+        private async System.Threading.Tasks.Task SendNotification(string title, string body, string listId)
+        {
+            var message = new FirebaseAdmin.Messaging.Message()
+            {
+                Notification = new FirebaseAdmin.Messaging.Notification()
+                {
+                    Title = title,
+                    Body = body
+                },
+                Data = new Dictionary<string, string>()
+                {
+                    { "castingId", listId },
+                },
+                Condition = "!('anytopicyoudontwanttouse' in topics)"
+            };
+            await FirebaseAdmin.Messaging.FirebaseMessaging.DefaultInstance.SendAsync(message);
         }
     }
 }
