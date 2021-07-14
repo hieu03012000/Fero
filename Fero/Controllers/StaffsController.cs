@@ -2,8 +2,6 @@ using Fero.Data.ViewModels;
 using Fero.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fero.Controllers
@@ -14,10 +12,7 @@ namespace Fero.Controllers
     public partial class StaffsController : ControllerBase
     {
         private readonly IStaffService _staffService;
-        private readonly IModelService _modelService;
-        public StaffsController(IStaffService staffService,
-            IModelService modelService){
-            _modelService = modelService;
+        public StaffsController(IStaffService staffService){
             _staffService=staffService;
         }
 

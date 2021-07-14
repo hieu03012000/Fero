@@ -9,6 +9,7 @@ namespace Fero.Data.ViewModels
         public string Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string AuthToken { get; set; }
     }
 
     public class StaffLoginViewModel
