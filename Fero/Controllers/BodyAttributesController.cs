@@ -1,5 +1,6 @@
 using Fero.Data.Services;
 using Fero.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace Fero.Controllers
         {
             return Ok(await _bodyAttributeService.GetMeasure(modelId, type));
         }
-        
+
         /// <summary>
         /// Update measure
         /// </summary>
@@ -42,6 +43,19 @@ namespace Fero.Controllers
         public async Task<IActionResult> UpdateMeasure(ICollection<UpdateMeasureViewModel> viewModels)
         {
             return Ok(await _bodyAttributeService.UpdateMeasures(viewModels));
+        }
+
+        /// <summary>
+        /// Update measure
+        /// </summary>
+        /// <param name="bodyPartId"></param>
+        /// <returns></returns>
+        [HttpGet("{bodyPartId}")]
+        [MapToApiVersion("1.0")]
+        [Authorize]
+        public async Task<IActionResult> UpdateMeasure(int bodyPartId)
+        {
+            return Ok(await _bodyAttributeService.GetMeasuresByBodyPart(bodyPartId));
         }
 
         //[HttpGet("{id}")]

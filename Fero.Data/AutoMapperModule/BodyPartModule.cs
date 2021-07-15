@@ -17,6 +17,10 @@ namespace Fero.Data.AutoMapperModule
             mc.CreateMap<BodyPart, ModelDetailBodyPartViewModel>()
             .ForMember(des => des.BodyPartTypeName, opt => opt.MapFrom(src => src.BodyPartType.Name));
             mc.CreateMap<ModelDetailBodyPartViewModel, BodyPart>();
+            
+            mc.CreateMap<BodyPart, BodyPartViewModel>()
+            .ForMember(des => des.Name, opt => opt.MapFrom(src => src.BodyPartType.Name));
+            mc.CreateMap<BodyPartViewModel, BodyPart>();
         }
     }
 }

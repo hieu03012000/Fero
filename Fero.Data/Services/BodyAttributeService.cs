@@ -14,6 +14,7 @@ namespace Fero.Data.Services
     {
         Task<IQueryable<GetMeasureViewModel>> GetMeasure(string modelId, string type);
         Task<ICollection<UpdateMeasureViewModel>> UpdateMeasures(ICollection<UpdateMeasureViewModel> viewModels);
+        Task<IQueryable<GetMeasureViewModel>> GetMeasuresByBodyPart(int bodyPartId);
     }
     public partial class BodyAttributeService:BaseService<BodyAttribute>,IBodyAttributeService
     {
@@ -35,6 +36,14 @@ namespace Fero.Data.Services
                 await UpdateAsync(_mapper.Map<BodyAttribute>(viewModels.ElementAt(i)));
             }
             return viewModels;
+        }
+
+        public async Task<IQueryable<GetMeasureViewModel>> GetMeasuresByBodyPart(int bodyPartId)
+        {
+            if (await FirstOrDefaultAsyn(m => m.BodyPartId == bodyPartId) == null)
+                return null;
+            var list = Get(m => m.BodyPartId == bodyPartId).ProjectTo<GetMeasureViewModel>(_mapper.ConfigurationProvider);
+            return list;
         }
 
         public async Task<IQueryable<GetMeasureViewModel>> GetMeasure (string modelId, string type) //22 23 24 25

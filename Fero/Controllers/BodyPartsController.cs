@@ -1,25 +1,38 @@
 using Fero.Data.Models;
 using Fero.Data.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fero.Controllers
 {
     [ApiController]
-    [Route("api/body-parts")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/body-parts")]
     public partial class BodyPartsController : ControllerBase
     {
         private readonly IBodyPartService _bodyPartService;
-        public BodyPartsController(IBodyPartService bodyPartService){
-            _bodyPartService=bodyPartService;
+        public BodyPartsController(IBodyPartService bodyPartService) {
+            _bodyPartService = bodyPartService;
         }
-        //[HttpGet]
-        //public IActionResult Gets()
-        //{
-        //    return Ok(_bodyPartService.Get().ToList());
-        //}
+
+        /// <summary>
+        /// get model body part
+        /// </summary>
+        /// <param name="modelId"></param>
+        /// <returns></returns>
+        [HttpGet("{modelId}")]
+        [Authorize]
+        [MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetModelBodyPart(string modelId)
+        {
+            return Ok(await _bodyPartService.GetModelBodyPart(modelId));
+        }
+
+
         //[HttpGet("{id}")]
         //[ProducesResponseType(StatusCodes.Status200OK)]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
