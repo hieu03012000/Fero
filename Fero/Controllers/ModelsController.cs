@@ -184,8 +184,8 @@ namespace Fero.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CheckToken(TokenViewModel token)
         {
-            await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token.Token);
-            return Ok(await _modelService.GenerateJWTToken(token.Mail));
+            var a = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(token.Token);
+            return Ok(await _modelService.GenerateJWTToken(a.Claims["email"].ToString()));
         }
 
         /// <summary>

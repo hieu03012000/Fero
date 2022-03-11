@@ -29,7 +29,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{modelId}/apply")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetCastingModelApply(string modelId)
         {
             return Ok(await _castingService.GetCastingModelApply(modelId));
@@ -54,7 +54,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetCastingByIds(CastingListIds castingIds)
         {
             return Ok(await _castingService.GetCastingListByIds(castingIds.CastingIds));
@@ -66,7 +66,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _castingService.GetCastingList());
@@ -79,7 +79,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("{modelId}/incoming")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Gets(string modelId)
         {
             return Ok(await _castingService.GetCastingHaveTask(modelId));
@@ -92,7 +92,7 @@ namespace Fero.Controllers
         /// <returns></returns>
         [MapToApiVersion("1.0")]
         [HttpGet("search")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> SearchCasting([FromQuery]SearchValue value)
         {
             return Ok(await _castingService.SearchCasting(value));
@@ -107,7 +107,7 @@ namespace Fero.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> CastingDetail(int id)
         {
             return Ok(await _castingService.ShowDetailCasting(id));
